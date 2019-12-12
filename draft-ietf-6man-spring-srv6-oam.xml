@@ -10,7 +10,7 @@
 <?rfc inline="yes"?>
 <?rfc compact="yes"?>
 <?rfc subcompact="no"?>
-<rfc category="std" docName="draft-ietf-6man-spring-srv6-oam-02"
+<rfc category="std" docName="draft-ietf-6man-spring-srv6-oam-latest"
      ipr="trust200902">
   <front>
     <title abbrev="SRv6 OAM">Operations, Administration, and Maintenance (OAM) in Segment
