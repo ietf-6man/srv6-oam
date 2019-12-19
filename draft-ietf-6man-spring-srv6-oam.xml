@@ -177,10 +177,9 @@
 	<section title="Terminology and Reference Topology">
     
       <t> This document uses the terminology defined in [I-D.ietf-
-     spring-srv6-network-programming]. The readers are expected to be
-     familiar with the same. </t>
+     spring-srv6-network-programming].</t>
      
-     <t> Throughout the document, the following simple topology is used for
+     <t> Throughout the document, the following topology is used for
      illustration. </t>
      
       <figure> <artwork><![CDATA[
