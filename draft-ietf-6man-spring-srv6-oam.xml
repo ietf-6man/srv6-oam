@@ -316,14 +316,15 @@
           and meaning and processing of any other bit in SRH.Flags is
           outside of the scope of this document.
            </t>  
-           
+     
 	<section title="O-flag Processing">
 
       <t> The SRH.Flags.O-flag implements the "punt a timestamped copy of 
       the packet" behavior. This enables an SRv6 Endpoint node to send a 
       timestamped copy of the packets marked with o-flag to a local OAM 
       process. To prevent multiple evaluations of the datagram, the OAM 
-      process MUST NOT respond to any upper-layer header (like ICMP, UDP, 
+      process MUST NOT process the packet or respond to any upper-layer header 
+      (like ICMP, UDP, 
       etc.) payload. However, the OAM process MAY export the time-stamped 
       copy of the packet to a controller using e.g., IPFIX [RFC7011]. 
       To avoid hitting any performance impact, the processing node SHOULD 
@@ -373,7 +374,8 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
       <t>The presence of an OAM SID in the Destination address of the IPv6 header 
       instructs the segment endpoint implementing the OAM SID that the content 
       of the packet is of interest to the node and to process the upper-layer 
-      payload, accordingly. </t>  
+      payload, accordingly. The OAM SIDs terminate the forwarding of the probe 
+      packets for the upper layer processing. </t>  
        
       <t> As OAM SIDs terminate the forwarding of the probe 
       packets for the upper layer processing, they are not designed for  
@@ -445,7 +447,7 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
      </t>	
 	
 	<t> The document does not propose any changes to the standard ICMPv6
-     [RFC4443], [RFC4884] or standard ICMPv4 [RFC792].
+     [RFC4443], [RFC4884] or standard ICMPv4 [RFC792] or [RFC2151].
      </t>	
 	
 	<section title="Ping">
@@ -456,8 +458,8 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
      
 	<section title="Classic Ping">
 
-     <t>The existing mechanism to ping a remote IP prefix, along the
-     shortest path, continues to work without any modification. The
+     <t> The existing mechanism to query liveliness of a remote IP address, 
+     along the shortest path, continues to work without any modification. The
      initiator may be an SRv6 node or a classic IPv6 node. Similarly, the
      egress or transit may be an SRv6 capable node or a classic IPv6
      node. 
@@ -511,12 +513,12 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
           
           <t> Node N4, which is an SRv6 capable node, performs the standard
           SRH processing. Specifically, it observes the END.X function
-          (B:4:C52) with PSP (Penultimate Segment POP) on the echo
-          request packet and removes the SRH and forwards the packet
-          across link10 to N5. </t>
+          (B:4:C52) and forwards the packet on link10 towards N5.  
+          </t>
           
-          <t> The echo request packet at N5 arrives as an IPv6 packet without
-          an SRH. Node N5, which is a classic IPv6 node, performs the
+          <t> The echo request packet at N5 arrives as an IPv6 packet with or 
+          without an SRH. If N5 receives the packet with SRH, it skips SRH processing. 
+          In either case, Node N5 performs the
           standard IPv6/ ICMPv6 processing on the echo request and
           responds using ICMPv6 Echo Reply, accordingly. </t>
           
@@ -535,8 +537,8 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
      function B:4:C52 from node N1. Node N1 constructs the
      ping packet (A:1::, B:4:C52)(ICMPv6 Echo Request). 
      The ping fails because the node N4
-     receives the ICMPv6 echo request with DA set to B:4:C52 but the next
-     header is ICMPv6, instead of SRH.  
+     receives the ICMPv6 echo request with DA set to B:4:C52 but the effective 
+     next header is ICMPv6, instead of SRH.  
      </t>
      
      <t> To perform ICMPv6 ping to a target SID an echo request message is 
