@@ -1,0 +1,1111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Operations, Administration, and Maintenance (OAM) in Segment Routing Networks with IPv6 Data plane (SRv6)</title>
+
+  <style type="text/css" title="Xml2Rfc (sans serif)">
+  /*<![CDATA[*/
+	  a {
+	  text-decoration: none;
+	  }
+      /* info code from SantaKlauss at http://www.madaboutstyle.com/tooltip2.html */
+      a.info {
+          /* This is the key. */
+          position: relative;
+          z-index: 24;
+          text-decoration: none;
+      }
+      a.info:hover {
+          z-index: 25;
+          color: #FFF; background-color: #900;
+      }
+      a.info span { display: none; }
+      a.info:hover span.info {
+          /* The span will display just on :hover state. */
+          display: block;
+          position: absolute;
+          font-size: smaller;
+          top: 2em; left: -5em; width: 15em;
+          padding: 2px; border: 1px solid #333;
+          color: #900; background-color: #EEE;
+          text-align: left;
+      }
+	  a.smpl {
+	  color: black;
+	  }
+	  a:hover {
+	  text-decoration: underline;
+	  }
+	  a:active {
+	  text-decoration: underline;
+	  }
+	  address {
+	  margin-top: 1em;
+	  margin-left: 2em;
+	  font-style: normal;
+	  }
+	  body {
+	  color: black;
+	  font-family: verdana, helvetica, arial, sans-serif;
+	  font-size: 10pt;
+	  max-width: 55em;
+	  
+	  }
+	  cite {
+	  font-style: normal;
+	  }
+	  dd {
+	  margin-right: 2em;
+	  }
+	  dl {
+	  margin-left: 2em;
+	  }
+	
+	  ul.empty {
+	  list-style-type: none;
+	  }
+	  ul.empty li {
+	  margin-top: .5em;
+	  }
+	  dl p {
+	  margin-left: 0em;
+	  }
+	  dt {
+	  margin-top: .5em;
+	  }
+	  h1 {
+	  font-size: 14pt;
+	  line-height: 21pt;
+	  page-break-after: avoid;
+	  }
+	  h1.np {
+	  page-break-before: always;
+	  }
+	  h1 a {
+	  color: #333333;
+	  }
+	  h2 {
+	  font-size: 12pt;
+	  line-height: 15pt;
+	  page-break-after: avoid;
+	  }
+	  h3, h4, h5, h6 {
+	  font-size: 10pt;
+	  page-break-after: avoid;
+	  }
+	  h2 a, h3 a, h4 a, h5 a, h6 a {
+	  color: black;
+	  }
+	  img {
+	  margin-left: 3em;
+	  }
+	  li {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  ol p {
+	  margin-left: 0em;
+	  }
+	  p {
+	  margin-left: 2em;
+	  margin-right: 2em;
+	  }
+	  pre {
+	  margin-left: 3em;
+	  background-color: lightyellow;
+	  padding: .25em;
+	  }
+	  pre.text2 {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f0f0f0;
+	  width: 69em;
+	  }
+	  pre.inline {
+	  background-color: white;
+	  padding: 0em;
+	  }
+	  pre.text {
+	  border-style: dotted;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  width: 69em;
+	  }
+	  pre.drawing {
+	  border-style: solid;
+	  border-width: 1px;
+	  background-color: #f8f8f8;
+	  padding: 2em;
+	  }
+	  table {
+	  margin-left: 2em;
+	  }
+	  table.tt {
+	  vertical-align: top;
+	  }
+	  table.full {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.headers {
+	  border-style: outset;
+	  border-width: 1px;
+	  }
+	  table.tt td {
+	  vertical-align: top;
+	  }
+	  table.full td {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.tt th {
+	  vertical-align: top;
+	  }
+	  table.full th {
+	  border-style: inset;
+	  border-width: 1px;
+	  }
+	  table.headers th {
+	  border-style: none none inset none;
+	  border-width: 1px;
+	  }
+	  table.left {
+	  margin-right: auto;
+	  }
+	  table.right {
+	  margin-left: auto;
+	  }
+	  table.center {
+	  margin-left: auto;
+	  margin-right: auto;
+	  }
+	  caption {
+	  caption-side: bottom;
+	  font-weight: bold;
+	  font-size: 9pt;
+	  margin-top: .5em;
+	  }
+	
+	  table.header {
+	  border-spacing: 1px;
+	  width: 95%;
+	  font-size: 10pt;
+	  color: white;
+	  }
+	  td.top {
+	  vertical-align: top;
+	  }
+	  td.topnowrap {
+	  vertical-align: top;
+	  white-space: nowrap; 
+	  }
+	  table.header td {
+	  background-color: gray;
+	  width: 50%;
+	  }
+	  table.header a {
+	  color: white;
+	  }
+	  td.reference {
+	  vertical-align: top;
+	  white-space: nowrap;
+	  padding-right: 1em;
+	  }
+	  thead {
+	  display:table-header-group;
+	  }
+	  ul.toc, ul.toc ul {
+	  list-style: none;
+	  margin-left: 1.5em;
+	  margin-right: 0em;
+	  padding-left: 0em;
+	  }
+	  ul.toc li {
+	  line-height: 150%;
+	  font-weight: bold;
+	  font-size: 10pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  ul.toc li li {
+	  line-height: normal;
+	  font-weight: normal;
+	  font-size: 9pt;
+	  margin-left: 0em;
+	  margin-right: 0em;
+	  }
+	  li.excluded {
+	  font-size: 0pt;
+	  }
+	  ul p {
+	  margin-left: 0em;
+	  }
+	
+	  .comment {
+	  background-color: yellow;
+	  }
+	  .center {
+	  text-align: center;
+	  }
+	  .error {
+	  color: red;
+	  font-style: italic;
+	  font-weight: bold;
+	  }
+	  .figure {
+	  font-weight: bold;
+	  text-align: center;
+	  font-size: 9pt;
+	  }
+	  .filename {
+	  color: #333333;
+	  font-weight: bold;
+	  font-size: 12pt;
+	  line-height: 21pt;
+	  text-align: center;
+	  }
+	  .fn {
+	  font-weight: bold;
+	  }
+	  .hidden {
+	  display: none;
+	  }
+	  .left {
+	  text-align: left;
+	  }
+	  .right {
+	  text-align: right;
+	  }
+	  .title {
+	  color: #990000;
+	  font-size: 18pt;
+	  line-height: 18pt;
+	  font-weight: bold;
+	  text-align: center;
+	  margin-top: 36pt;
+	  }
+	  .vcardline {
+	  display: block;
+	  }
+	  .warning {
+	  font-size: 14pt;
+	  background-color: yellow;
+	  }
+	
+	
+	  @media print {
+	  .noprint {
+		display: none;
+	  }
+	
+	  a {
+		color: black;
+		text-decoration: none;
+	  }
+	
+	  table.header {
+		width: 90%;
+	  }
+	
+	  td.header {
+		width: 50%;
+		color: black;
+		background-color: white;
+		vertical-align: top;
+		font-size: 12pt;
+	  }
+	
+	  ul.toc a::after {
+		content: leader('.') target-counter(attr(href), page);
+	  }
+	
+	  ul.ind li li a {
+		content: target-counter(attr(href), page);
+	  }
+	
+	  .print2col {
+		column-count: 2;
+		-moz-column-count: 2;
+		column-fill: auto;
+	  }
+	  }
+	
+	  @page {
+	  @top-left {
+		   content: "Internet-Draft"; 
+	  } 
+	  @top-right {
+		   content: "December 2010"; 
+	  } 
+	  @top-center {
+		   content: "Abbreviated Title";
+	  } 
+	  @bottom-left {
+		   content: "Doe"; 
+	  } 
+	  @bottom-center {
+		   content: "Expires June 2011"; 
+	  } 
+	  @bottom-right {
+		   content: "[Page " counter(page) "]"; 
+	  } 
+	  }
+	
+	  @page:first { 
+		@top-left {
+		  content: normal;
+		}
+		@top-right {
+		  content: normal;
+		}
+		@top-center {
+		  content: normal;
+		}
+	  }
+  /*]]>*/
+  </style>
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 Conventions Used in This Document">
+<link href="#rfc.section.2.1" rel="Chapter" title="2.1 Abbreviations">
+<link href="#rfc.section.2.2" rel="Chapter" title="2.2 Terminology and Reference Topology">
+<link href="#rfc.section.3" rel="Chapter" title="3 OAM Building Blocks">
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 O-flag in Segment Routing Header">
+<link href="#rfc.section.3.1.1" rel="Chapter" title="3.1.1 O-flag Processing">
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 OAM Segments">
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 End.OP: OAM Endpoint with Punt">
+<link href="#rfc.section.3.4" rel="Chapter" title="3.4 End.OTP: OAM Endpoint with Timestamp and Punt">
+<link href="#rfc.section.4" rel="Chapter" title="4 OAM Mechanisms">
+<link href="#rfc.section.4.1" rel="Chapter" title="4.1 Ping">
+<link href="#rfc.section.4.1.1" rel="Chapter" title="4.1.1 Classic Ping">
+<link href="#rfc.section.4.1.2" rel="Chapter" title="4.1.2 Pinging a SID">
+<link href="#rfc.section.4.2" rel="Chapter" title="4.2 Traceroute">
+<link href="#rfc.section.4.2.1" rel="Chapter" title="4.2.1 Classic Traceroute">
+<link href="#rfc.section.4.2.2" rel="Chapter" title="4.2.2 Traceroute to a SID">
+<link href="#rfc.section.4.3" rel="Chapter" title="4.3 Monitoring of SRv6 Paths">
+<link href="#rfc.section.5" rel="Chapter" title="5 Implementation Status">
+<link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
+<link href="#rfc.section.7" rel="Chapter" title="7 IANA Considerations">
+<link href="#rfc.section.7.1" rel="Chapter" title="7.1 ICMPv6 type Numbers RegistrySEC">
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 SRv6 OAM Endpoint Types">
+<link href="#rfc.section.8" rel="Chapter" title="8 Acknowledgements">
+<link href="#rfc.section.9" rel="Chapter" title="9 Contributors">
+<link href="#rfc.references" rel="Chapter" title="10 References">
+<link href="#rfc.references.1" rel="Chapter" title="10.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="10.2 Informative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.35.0 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Ali, Z., Filsfils, C., Matsushima, S., Voyer, D., and M. Chen" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-6man-spring-srv6-oam-04" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-22" />
+  <meta name="dct.abstract" content="This document defines building blocks for Operations, Administration, and Maintenance (OAM) in Segment Routing Networks with IPv6 Dataplane (SRv6). The document also describes some SRv6 OAM mechanisms." />
+  <meta name="description" content="This document defines building blocks for Operations, Administration, and Maintenance (OAM) in Segment Routing Networks with IPv6 Dataplane (SRv6). The document also describes some SRv6 OAM mechanisms." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">6man</td>
+<td class="right">Z. Ali</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">C. Filsfils</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">Cisco Systems</td>
+</tr>
+<tr>
+<td class="left">Expires: July 25, 2020</td>
+<td class="right">S. Matsushima</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Softbank</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">D. Voyer</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Bell Canada</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">M. Chen</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">Huawei</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">January 22, 2020</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Operations, Administration, and Maintenance (OAM) in Segment Routing Networks with IPv6 Data plane (SRv6)<br />
+  <span class="filename">draft-ietf-6man-spring-srv6-oam-04</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>This document defines building blocks for Operations, Administration, and Maintenance (OAM) in Segment Routing Networks with IPv6 Dataplane (SRv6). The document also describes some SRv6 OAM mechanisms.</p>
+<h1><a>Requirements Language</a></h1>
+<p>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [RFC2119].</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on July 25, 2020.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">Conventions Used in This Document</a>
+</li>
+<ul><li>2.1.   <a href="#rfc.section.2.1">Abbreviations</a>
+</li>
+<li>2.2.   <a href="#rfc.section.2.2">Terminology and Reference Topology</a>
+</li>
+</ul><li>3.   <a href="#rfc.section.3">OAM Building Blocks</a>
+</li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">O-flag in Segment Routing Header</a>
+</li>
+<ul><li>3.1.1.   <a href="#rfc.section.3.1.1">O-flag Processing</a>
+</li>
+</ul><li>3.2.   <a href="#rfc.section.3.2">OAM Segments</a>
+</li>
+<li>3.3.   <a href="#rfc.section.3.3">End.OP: OAM Endpoint with Punt</a>
+</li>
+<li>3.4.   <a href="#rfc.section.3.4">End.OTP: OAM Endpoint with Timestamp and Punt</a>
+</li>
+</ul><li>4.   <a href="#rfc.section.4">OAM Mechanisms</a>
+</li>
+<ul><li>4.1.   <a href="#rfc.section.4.1">Ping</a>
+</li>
+<ul><li>4.1.1.   <a href="#rfc.section.4.1.1">Classic Ping</a>
+</li>
+<li>4.1.2.   <a href="#rfc.section.4.1.2">Pinging a SID</a>
+</li>
+</ul><li>4.2.   <a href="#rfc.section.4.2">Traceroute</a>
+</li>
+<ul><li>4.2.1.   <a href="#rfc.section.4.2.1">Classic Traceroute</a>
+</li>
+<li>4.2.2.   <a href="#rfc.section.4.2.2">Traceroute to a SID</a>
+</li>
+</ul><li>4.3.   <a href="#rfc.section.4.3">Monitoring of SRv6 Paths</a>
+</li>
+</ul><li>5.   <a href="#rfc.section.5">Implementation Status</a>
+</li>
+<li>6.   <a href="#rfc.section.6">Security Considerations</a>
+</li>
+<li>7.   <a href="#rfc.section.7">IANA Considerations</a>
+</li>
+<ul><li>7.1.   <a href="#rfc.section.7.1">ICMPv6 type Numbers RegistrySEC</a>
+</li>
+<li>7.2.   <a href="#rfc.section.7.2">SRv6 OAM Endpoint Types</a>
+</li>
+</ul><li>8.   <a href="#rfc.section.8">Acknowledgements</a>
+</li>
+<li>9.   <a href="#rfc.section.9">Contributors</a>
+</li>
+<li>10.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>10.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>10.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> Introduction</h1>
+<p id="rfc.section.1.p.1">This document defines building blocks for Operations, Administration, and Maintenance (OAM) in Segment Routing Networks with IPv6 Dataplane (SRv6). The document also describes some SRv6 OAM mechanisms. </p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> Conventions Used in This Document</h1>
+<h1 id="rfc.section.2.1">
+<a href="#rfc.section.2.1">2.1.</a> Abbreviations</h1>
+<p id="rfc.section.2.1.p.1">The following abbreviations are used in this document: </p>
+
+<dl>
+<dt></dt>
+<dd style="margin-left: 8">SID: Segment ID.  </dd>
+<dt></dt>
+<dd style="margin-left: 8">SL: Segment Left.  </dd>
+<dt></dt>
+<dd style="margin-left: 8">SR: Segment Routing.  </dd>
+<dt></dt>
+<dd style="margin-left: 8">SRH: Segment Routing Header.  </dd>
+<dt></dt>
+<dd style="margin-left: 8">SRv6: Segment Routing with IPv6 Data plane.  </dd>
+<dt></dt>
+<dd style="margin-left: 8">TC: Traffic Class.  </dd>
+<dt></dt>
+<dd style="margin-left: 8">ICMPv6: ICMPv6 Specification [RFC4443].  </dd>
+</dl>
+<h1 id="rfc.section.2.2">
+<a href="#rfc.section.2.2">2.2.</a> Terminology and Reference Topology</h1>
+<p id="rfc.section.2.2.p.1">This document uses the terminology defined in [I-D.ietf- spring-srv6-network-programming]. The readers are expected to be familiar with the same. </p>
+<p id="rfc.section.2.2.p.2">Throughout the document, the following simple topology is used for illustration. </p>
+<pre>
+           +--------------------------| N100 |------------------------+
+           |                                                          |
+              ====== link1====== link3------ link5====== link9------
+              ||N1||======||N2||======| N3 |======||N4||======| N5 |
+              ||  ||------||  ||------|    |------||  ||------|    |
+              ====== link2====== link4------ link6======link10------
+                             |                      |
+                             |       ------         |
+                             +-------| N6 |---------+
+                               link7 |    | link8
+                                     ------
+	  
+                           Figure 1 Reference Topology
+	  
+	  </pre>
+<p id="rfc.section.2.2.p.3">In the reference topology: </p>
+
+<ul class="empty">
+<li>Nodes N1, N2, and N4 are SRv6 capable nodes.  </li>
+<li>Nodes N3, N5 and N6 are classic IPv6 nodes.  </li>
+<li>Node N100 is a controller.  </li>
+<li>Node k has a classic IPv6 loopback address A:k::/128.  </li>
+<li>A SID at node k with locator block B and function F is represented by B:k:F::.  </li>
+<li>The IPv6 address of the nth Link between node X and Y at the X side is represented as 2001:DB8:X:Y:Xn::, e.g., the IPv6 address of link6 (the 2nd link) between N3 and N4 at N3 in Figure 1 is 2001:DB8:3:4:32::.  Similarly, the IPv6 address of link5 (the 1st link between N3 and N4) at node 3 is 2001:DB8:3:4:31::.  </li>
+<li>B:k:Cij:: is explicitly allocated as the END.X function at node k towards neighbor node i via jth Link between node i and node j.  e.g., B:2:C31:: represents END.X at N2 towards N3 via link3 (the 1st link between N2 and N3). Similarly, B:4:C52:: represents the END.X at N4 towards N5 via link10.  </li>
+<li>A SID list is represented as &lt;S1, S2, S3&gt; where S1 is the first SID to visit, S2 is the second SID to visit and S3 is the last SID to visit along the SR path.  </li>
+<li>(SA,DA) (S3, S2, S1; SL)(payload) represents an IPv6 packet with: <ul>
+<li>IPv6 header with source address SA, destination addresses DA and SRH as next-header </li>
+<li>SRH with SID list &lt;S1, S2, S3&gt; with SegmentsLeft = SL </li>
+<li>Note the difference between the &lt; &gt; and () symbols: &lt;S1, S2, S3&gt; represents a SID list where S1 is the first SID and S3 is the last SID to traverse.  (S3, S2, S1; SL) represents the same SID list but encoded in the SRH format where the rightmost SID in the SRH is the first SID and the leftmost SID in the SRH is the last SID.  When referring to an SR policy in a high-level use-case, it is simpler to use the &lt;S1, S2, S3&gt; notation.  When referring to an illustration of the detailed packet behavior, the (S3, S2, S1; SL) notation is more convenient.  </li>
+<li>(payload) represents the the payload of the packet.  </li>
+</ul>
+</li>
+<li>SRH[SL] represents the SID pointed by the SL field in the first SRH.  In our example, SRH[2] represents S1, SRH[1] represents S2 and SRH[0] represents S3.  </li>
+</ul>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> OAM Building Blocks</h1>
+<p id="rfc.section.3.p.1">This section defines the various building blocks for implementing OAM mechanisms in SRv6 networks.  </p>
+<h1 id="rfc.section.3.1">
+<a href="#rfc.section.3.1">3.1.</a> O-flag in Segment Routing Header</h1>
+<p id="rfc.section.3.1.p.1">[I-D.ietf-6man-segment-routing-header] describes the Segment Routing Header (SRH) and how SR capable nodes use it. The SRH contains an 8-bit "Flags" field [I-D.draft-ietf-6man-segment- routing-header]. This document defines the following bit in the SRH.Flags to carry the O-flag: </p>
+<pre>
+               0 1 2 3 4 5 6 7
+              +-+-+-+-+-+-+-+-+
+              |   |O|         |
+              +-+-+-+-+-+-+-+-+
+	  
+	  </pre>
+<p id="rfc.section.3.1.p.2">Where: </p>
+
+<dl>
+<dt></dt>
+<dd style="margin-left: 8">O-flag: OAM flag. When set, it indicates that this packet is an operations and management (OAM) packet. This document defines the usage of the O-flag in the SRH.Flags.  </dd>
+</dl>
+<p id="rfc.section.3.1.p.3">The document does not define any other flag in the SRH.Flags and meaning and processing of any other bit in SRH.Flags is outside of the scope of this document.  </p>
+<h1 id="rfc.section.3.1.1">
+<a href="#rfc.section.3.1.1">3.1.1.</a> O-flag Processing</h1>
+<p id="rfc.section.3.1.1.p.1">The SRH.Flags.O-flag implements the "punt a timestamped copy of the packet" behavior. This enables an SRv6 Endpoint node to send a timestamped copy of the packets marked with o-flag to a local OAM process. To prevent multiple evaluations of the datagram, the OAM process MUST NOT process the packet or respond to any upper-layer header (like ICMP, UDP, etc.) payload. However, the OAM process MAY export the time-stamped copy of the packet to a controller using e.g., IPFIX [RFC7011].  To avoid hitting any performance impact, the processing node SHOULD rate-limit the number of packets punted to the OAM process.  Specification of the OAM process or the external controller operations are beyond the scope of this document.  </p>
+<p id="rfc.section.3.1.1.p.2">Implementation of the O-flag is OPTIONAL. If a node does not support the O-flag, then upon reception it simply ignores it.  </p>
+<p id="rfc.section.3.1.1.p.3">If a node supports the O-flag, it can optionally advertise its potential via node capability advertisement in IGP [I-D.ietf-isis-srv6- extensions] and BGP-LS [I-D.ietf-idr-bgpls-srv6-ext].  </p>
+<p id="rfc.section.3.1.1.p.4">When N receives a packet whose IPv6 DA is S and S is a local SID, the line S01 of the the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of [I-D.ietf-6man-segment-routing-header], is modified as follows for the O-flag processing.  </p>
+<pre>
+     S01.1. IF SRH.Flags.O-flag is set and local configuration permits 
+            O-flag processing THEN
+            a. Make a copy of the packet.    
+            b. Send the copied packet, along with a timestamp 
+               to the OAM process.      ;; Ref1
+     Ref1: An implementation SHOULD copy and record the timestamp as soon as 
+     possible during packet processing. Timestamp is not carried in the packet 
+     forwarded to the next hop.
+	
+	</pre>
+<p id="rfc.section.3.1.1.p.5">Please note that the O-flag processing happens before execution of regular processing of the local SID S.  </p>
+<h1 id="rfc.section.3.2">
+<a href="#rfc.section.3.2">3.2.</a> OAM Segments</h1>
+<p id="rfc.section.3.2.p.1">The presence of an OAM SID in the Destination address of the IPv6 header instructs the segment endpoint implementing the OAM SID that the content of the packet is of interest to the node and to process the upper-layer payload, accordingly. The OAM SIDs terminate the forwarding of the probe packets for the upper layer processing. </p>
+<p id="rfc.section.3.2.p.2">As OAM SIDs terminate the forwarding of the probe packets for the upper layer processing, they are not designed for implementing In-situ OAM mechanisms defined in [I.D-draft-ietf-ippm-ioam-data].  </p>
+<h1 id="rfc.section.3.3">
+<a href="#rfc.section.3.3">3.3.</a> End.OP: OAM Endpoint with Punt</h1>
+<p id="rfc.section.3.3.p.1">When N receives a packet destined to S and S is a local End.OP SID, N does: </p>
+<pre>
+     S01.   Send the packet to the OAM process
+	
+	</pre>
+<p id="rfc.section.3.3.p.2">The local OAM process further processes the packet, this MAY involve processing protocol layers above IPv6.  For example, ping and traceroute will require ICMP or UDP protocol processing.  Once the packet leaves the IPv6 layer the processing is considered host processing and the upper layer protocols MUST be processed as such.  </p>
+<h1 id="rfc.section.3.4">
+<a href="#rfc.section.3.4">3.4.</a> End.OTP: OAM Endpoint with Timestamp and Punt</h1>
+<p id="rfc.section.3.4.p.1">When N receives a packet destined to S and S is a local End.OTP SID, N does: </p>
+<pre>
+      S01.1. Timestamp the packet ;; Ref1
+      S01.2. Send the packet, along with a timestamp, to the 
+      OAM process 
+      Ref1: Timestamping SHOULD be done in hardware, as soon as possible
+      during the packet processing.
+	
+	</pre>
+<p id="rfc.section.3.4.p.2">The local OAM process further processes the packet, this MAY involve processing protocol layers above IPv6.  For example, ping and traceroute will require ICMP or UDP protocol processing.  Once the packet leaves the IPv6 layer the processing is considered host processing and the upper layer protocols MUST be processed as such.  </p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> OAM Mechanisms</h1>
+<p id="rfc.section.4.p.1">This section describes how OAM mechanisms can be implemented using the OAM building blocks described in the previous section.  </p>
+<p id="rfc.section.4.p.2">[RFC4443] describes Internet Control Message Protocol for IPv6 (ICMPv6) that is used by IPv6 devices for network diagnostic and error reporting purposes. As Segment Routing with IPv6 data plane (SRv6) simply adds a new type of Routing Extension Header, existing ICMPv6 ping mechanisms can be used in an SRv6 network. This section describes the applicability of ICMPv6 in the SRv6 network and how the existing ICMPv6 mechanisms can be used for providing OAM functionality.  </p>
+<p id="rfc.section.4.p.3">The document does not propose any changes to the standard ICMPv6 [RFC4443], [RFC4884] or standard ICMPv4 [RFC792] or [RFC2151].  </p>
+<h1 id="rfc.section.4.1">
+<a href="#rfc.section.4.1">4.1.</a> Ping</h1>
+<p id="rfc.section.4.1.p.1">The following subsections outline some use cases of the ICMP ping in the SRv6 networks.  </p>
+<h1 id="rfc.section.4.1.1">
+<a href="#rfc.section.4.1.1">4.1.1.</a> Classic Ping</h1>
+<p id="rfc.section.4.1.1.p.1">The existing mechanism to query liveliness of a remote IP address, along the shortest path, continues to work without any modification. The initiator may be an SRv6 node or a classic IPv6 node. Similarly, the egress or transit may be an SRv6 capable node or a classic IPv6 node.  </p>
+<p id="rfc.section.4.1.1.p.2">If an SRv6 capable ingress node wants to ping an IPv6 prefix via an arbitrary segment list &lt;S1, S2, S3&gt;, it needs to initiate ICMPv6 ping with an SR header containing the SID list &lt;S1, S2, S3&gt;. This is illustrated using the topology in Figure 1. Assume all the links have IGP metric 10 except both links between node2 and node3, which have IGP metric set to 100. User issues a ping from node N1 to a loopback of node 5, via segment list &lt;B:2:C31, B:4:C52&gt;.  </p>
+<p id="rfc.section.4.1.1.p.3">Figure 2 contains sample output for a ping request initiated at node N1 to the loopback address of node N5 via a segment list &lt;B:2:C31, B:4:C52&gt;.  </p>
+<pre>
+     
+     &gt; ping A:5:: via segment-list B:2:C31, B:4:C52
+
+     Sending 5, 100-byte ICMP Echos to B5::, timeout is 2 seconds:
+     !!!!!
+     Success rate is 100 percent (5/5), round-trip min/avg/max = 0.625
+     /0.749/0.931 ms
+     
+             Figure 2 A sample ping output at an SRv6 capable node
+	
+	</pre>
+<p id="rfc.section.4.1.1.p.4">All transit nodes process the echo request message like any other data packet carrying SR header and hence do not require any change.  Similarly, the egress node (IPv6 classic or SRv6 capable) does not require any change to process the ICMPv6 echo request. For example, in the ping example of Figure 2: </p>
+
+<ul>
+<li>Node N1 initiates an ICMPv6 ping packet with SRH as follows (A:1::, B:2:C31)(A:5::, B:4:C52, B:2:C31, SL=2, NH = ICMPv6)(ICMPv6 Echo Request).</li>
+<li>Node N2, which is an SRv6 capable node, performs the standard SRH processing. Specifically, it executes the END.X function (B:2:C31) and forwards the packet on link3 to N3.</li>
+<li>Node N3, which is a classic IPv6 node, performs the standard IPv6 processing. Specifically, it forwards the echo request based on DA B:4:C52 in the IPv6 header. </li>
+<li>Node N4, which is an SRv6 capable node, performs the standard SRH processing. Specifically, it observes the END.X function (B:4:C52) and forwards the packet on link10 towards N5.  </li>
+<li>The echo request packet at N5 arrives as an IPv6 packet with or without an SRH. If N5 receives the packet with SRH, it skips SRH processing.  In either case, Node N5 performs the standard IPv6/ ICMPv6 processing on the echo request and responds using ICMPv6 Echo Reply, accordingly. </li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.4.1.2">
+<a href="#rfc.section.4.1.2">4.1.2.</a> Pinging a SID</h1>
+<p id="rfc.section.4.1.2.p.1">The classic ping described in the previous section cannot be used to ping a remote SID function, as explained using an example in the following.  </p>
+<p id="rfc.section.4.1.2.p.2">Consider the case where the user wants to ping the remote SID function B:4:C52 from node N1. Node N1 constructs the ping packet (A:1::, B:4:C52)(ICMPv6 Echo Request).  The ping fails because the node N4 receives the ICMPv6 echo request with DA set to B:4:C52 but the effective next header is ICMPv6, instead of SRH.  </p>
+<p id="rfc.section.4.1.2.p.3">To perform ICMPv6 ping to a target SID an echo request message is generated by the initiator with the END.OP or END.OTP SID in the segment-list of the SRH immediately preceding the target SID.  There may be additional segments preceding the END.OP/ END.OTP SID. </p>
+<p id="rfc.section.4.1.2.p.4">When the node instantiating a SID S of type END.OP or END.OTP receives a packet with S in the destination address of the IPv6 header it sends it to the OAM process. The OAM process verifies the segment following S  is a locally instantiated SID. It then processes the Upper layer header of the packet, as a host, responding to the echo request message in the ICMPv6 payload. </p>
+<p id="rfc.section.4.1.2.p.5">When the segment following S is not verified by the OAM process an ICMPv6 error message type 4 (parameter problem) code 0 (erroneous header field encountered) with pointer set to the segment following S  (the target SID) is generated for the packet and the packet is discarded. </p>
+<p id="rfc.section.4.1.2.p.6">An implementation of the OAM process SID verification SHOULD do the following: </p>
+
+<ul>
+<li>Verify that the SID is locally instantiated.</li>
+<li>Verify that the SID is instantiated in the data plane (this may include verification of the SID in NPUs or forwarding hardware, as applicable).</li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.4.1.2.1">
+<a href="#rfc.section.4.1.2.1">4.1.2.1.</a> Ping using END.OP/ END.OTP</h1>
+<p id="rfc.section.4.1.2.1.p.1">This section uses END.OTP SID for the ping illustration but the procedures are equally applicable to the END.OP SID.  </p>
+<p id="rfc.section.4.1.2.1.p.2">Consider the example where the user wants to ping a remote SID function B:4:C52, via B:2:C31, from node N1. To force a punt of the ICMPv6 echo request at the node N4, node N1 inserts the END.OTP SID just before the target SID B:4:C52 in the SRH.  The ICMPv6 echo request is processed at the individual nodes along the path as follows: </p>
+
+<ul>
+<li>Node N1 initiates an ICMPv6 ping packet with SRH as follows (A:1::, B:2:C31)(B:4:C52, B:4:OTP, B:2:C31; SL=2; NH=ICMPv6)(ICMPv6 Echo Request).</li>
+<li>Node N2, which is an SRv6 capable node, performs the standard SRH processing. Specifically, it executes the END.X function (B:2:C31) on the echo request packet.</li>
+<li>Node N3 receives the packet as follows (A:1::, B:4:OTP)(B:4:C52, B:4:OTP, B:2:C31 ; SL=1; NH=ICMPv6)(ICMPv6 Echo Request). Node N3, which is a classic IPv6 node, performs the standard IPv6 processing. Specifically, it forwards the echo request based on DA B:4:OTP in the IPv6 header.</li>
+<li>When node N4 receives the packet (A:1::, B:4:OTP)(B:4:C52, B:4:OTP, B:2:C31 ; SL=1; NH=ICMPv6)(ICMPv6 Echo Request), it processes the END.OTP SID, as described in the pseudocode in Section 3. The packet gets time-stamped and punted to the OAM process for processing.  The OAM process checks if the next SID in SRH (the target SID B:4:C52) is locally programmed. </li>
+<li>If the next SID is not locally programmed, the OAM process returns an ICMPv6 error message type 4 (parameter problem) code 0 (erroneous header field encountered) with pointer set to the target SID B:4:C52 and the packet is discarded.  </li>
+<li>If the next SID is locally programmed, the node processes the upper layer header.  As part of the upper layer header (ICMPv6) processing node N4 sends the ICMPv6 Echo Reply message [RFC4443]. </li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.4.2">
+<a href="#rfc.section.4.2">4.2.</a> Traceroute</h1>
+<p id="rfc.section.4.2.p.1">There is no hardware or software change required for traceroute operation at the classic IPv6 nodes in an SRv6 network. That includes the classic IPv6 node with ingress, egress or transit roles. Furthermore, no protocol changes are required to the standard traceroute operations. In other words, existing traceroute mechanisms work seamlessly in the SRv6 networks.  </p>
+<p id="rfc.section.4.2.p.2">The following subsections outline some use cases of the traceroute in the SRv6 networks.  </p>
+<h1 id="rfc.section.4.2.1">
+<a href="#rfc.section.4.2.1">4.2.1.</a> Classic Traceroute</h1>
+<p id="rfc.section.4.2.1.p.1">The existing mechanism to traceroute a remote IP prefix, along the shortest path, continues to work without any modification. The initiator may be an SRv6 node or a classic IPv6 node. Similarly, the egress or transit may be an SRv6 node or a classic IPv6 node.  </p>
+<p id="rfc.section.4.2.1.p.2">If an SRv6 capable ingress node wants to traceroute to IPv6 prefix via an arbitrary segment list &lt;S1, S2, S3&gt;, it needs to initiate traceroute probe with an SR header containing the SID list &lt;S1, S2, S3&gt;. That is illustrated using the topology in Figure 1. Assume all the links have IGP metric 10 except both links between node2 and node3, which have IGP metric set to 100. User issues a traceroute from node N1 to a loopback of node 5, via segment list &lt;B:2:C31, B:4:C52&gt;. Figure 3 contains sample output for the traceroute request.  </p>
+<pre>
+     
+     &gt; traceroute A:5:: via segment-list B:2:C31, B:4:C52
+
+     Tracing the route to A:5::
+      1  2001:DB8:1:2:21:: 0.512 msec 0.425 msec 0.374 msec
+         SRH: (A:5::, B:4:C52, B:2:C31, SL=2)
+      2  2001:DB8:2:3:31:: 0.721 msec 0.810 msec 0.795 msec
+         SRH: (A:5::, B:4:C52, B:2:C31, SL=1)
+      3  2001:DB8:3:4::41:: 0.921 msec 0.816 msec 0.759 msec
+         SRH: (A:5::, B:4:C52, B:2:C31, SL=1)
+      4  2001:DB8:4:5::52:: 0.879 msec 0.916 msec 1.024 msec
+
+      Figure 3 A sample traceroute output at an SRv6 capable node
+	
+	</pre>
+<p id="rfc.section.4.2.1.p.3">Please note that information for hop2 is returned by N3, which is a classic IPv6 node. Nonetheless, the ingress node is able to display SR header contents as the packet travels through the IPv6 classic node. This is because the "Time Exceeded Message" ICMPv6 message can contain as much of the invoking packet as possible without the ICMPv6 packet exceeding the minimum IPv6 MTU [RFC4443]. The SR header is also included in these ICMPv6 messages initiated by the classic IPv6 transit nodes that are not running SRv6 software.  Specifically, a node generating ICMPv6 message containing a copy of the invoking packet does not need to understand the extension header(s) in the invoking packet.  </p>
+<p id="rfc.section.4.2.1.p.4">The segment list information returned for hop1 is returned by N2, which is an SRv6 capable node. Just like for hop2, the ingress node is able to display SR header contents for hop1.  </p>
+<p id="rfc.section.4.2.1.p.5">There is no difference in processing of the traceroute probe at an IPv6 classic node and an SRv6 capable node. Similarly, both IPv6 classic and SRv6 capable nodes may use the address of the interface on which probe was received as the source address in the ICMPv6 response. ICMP extensions defined in [RFC5837] can be used to also display information about the IP interface through which the datagram would have been forwarded had it been forwardable, and the IP next hop to which the datagram would have been forwarded, the IP interface upon which a datagram arrived, the sub-IP component of an IP interface upon which a datagram arrived.  </p>
+<p id="rfc.section.4.2.1.p.6">The information about the IP address of the incoming interface on which the traceroute probe was received by the reporting node is very useful. This information can also be used to verify if SID functions B:2:C31 and B:4:C52 are executed correctly by N2 and N4, respectively. Specifically, the information displayed for hop2 contains the incoming interface address 2001:DB8:2:3:31:: at N3.  This matches with the expected interface bound to END.X function B:2:C31 (link3). Similarly, the information displayed for hop5 contains the incoming interface address 2001:DB8:4:5::52:: at N5.  This matches with the expected interface bound to the END.X function B:4:C52 (link10).  </p>
+<h1 id="rfc.section.4.2.2">
+<a href="#rfc.section.4.2.2">4.2.2.</a> Traceroute to a SID</h1>
+<p id="rfc.section.4.2.2.p.1">The classic traceroute described in the previous section cannot be used to traceroute a remote SID function, as explained using an example in the following.  </p>
+<p id="rfc.section.4.2.2.p.2">Consider the case where the user wants to traceroute the remote SID function B:4:C52 from node N1. The trace route fails at N4.  This is because the node N4 receives a trace route probe where next header is UDP or ICMPv6, instead of SRH (even though the hop limit is set to 1).  </p>
+<p id="rfc.section.4.2.2.p.3">To traceroute a target SID a probe message is generated by the initiator with the END.OP or END.OTP SID in the segment-list of the SRH immediately preceding the target SID. There may be additional segments preceding the END.OP/ END.OTP SID.  </p>
+<p id="rfc.section.4.2.2.p.4">The node instantiating a SID S of type END.OP or END.OTP receives a packet with S in the destination address of the IPv6 header and sends it to the OAM process (before processing the TTL). The OAM process verifies the segment following S  is a locally instantiated SID. It then processes the Upper layer header of the packet, as a host, responding to the probe message.  </p>
+<p id="rfc.section.4.2.2.p.5">When the segment following S is not verified by the OAM process an ICMPv6 error message type 4 (parameter problem) code 0 (erroneous header field encountered) with pointer set to the segment following S (the target SID) is generated for the packet and the packet is discarded.  </p>
+<p id="rfc.section.4.2.2.p.6">An implementation of the OAM process SID verification SHOULD do the following: </p>
+
+<ul>
+<li>Verify that the SID is locally instantiated. </li>
+<li>Verify that the SID is instantiated in the data plane (this may include verification of the SID in NPUs or forwarding hardware, as applicable).</li>
+</ul>
+
+<p> </p>
+<h1 id="rfc.section.4.2.2.1">
+<a href="#rfc.section.4.2.2.1">4.2.2.1.</a> Traceroute using END.OP/ END.OTP</h1>
+<p id="rfc.section.4.2.2.1.p.1">In this section, hop-by-hop traceroute to a SID function is exemplified using UDP probes. However, the procedure is equally applicable to other implementation of traceroute mechanism.  Furthermore, the illustration uses the END.OTP SID but the procedures are equally applicable to the END.OP SID.  </p>
+<p id="rfc.section.4.2.2.1.p.2">Consider the same example where the user wants to traceroute to a remote SID function B:4:C52, via B:2:C31, from node N1. To force a punt of the traceroute probe only at the node N4, node N1 inserts the END.OTP SID just before the target SID B:4:C52 in the SRH. The traceroute probe is processed at the individual nodes along the path as follows: </p>
+
+<ul>
+<li>Node N1 initiates a traceroute probe packet with a monotonically increasing value of hop count and SRH as follows (A:1::, B:2:C31)(B:4:C52, B:4:OTP, B:2:C31; SL=2; NH=UDP)(Traceroute probe). </li>
+<li>When node N2 receives the packet with hop-count = 1, it processes the hop count expiry. Specifically, the node N2 responses with the ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live exceeded in Transit"). </li>
+<li>When Node N2 receives the packet with hop-count &gt; 1, it performs the standard SRH processing. Specifically, it executes the END.X function (B:2:C31) on the traceroute probe.</li>
+<li>When node N3, which is a classic IPv6 node, receives the packet (A:1::, B:4:OTP)(B:4:C52, B:4:OTP, B:2:C31 ; HC=1, SL=1; NH=UDP)(Traceroute probe) with hop-count = 1, it processes the hop count expiry. Specifically, the node N3 responses with the ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live exceeded in Transit").</li>
+<li>When node N3, which is a classic IPv6 node, receives the packet with hop-count &gt; 1, it performs the standard IPv6 processing.  Specifically, it forwards the traceroute probe based on DA B:4:OTP in the IPv6 header. </li>
+<li>When node N4 receives the packet (A:1::, B:4:OTP)(B:4:C52, B:4:OTP, B:2:C31 ; SL=1; HC=1, NH=UDP)(Traceroute probe), it processes the END.OTP SID, as described in the pseudocode in Section 3. Before hop-limit processing, the packet gets timestamped and punted to the OAM process for processing. The OAM process checks if the next SID in SRH (the target SID B:4:C52) is locally programmed. </li>
+<li>If the next SID is not locally programmed, the OAM process returns an ICMPv6 error message type 4 (parameter problem) code 0 (erroneous header field encountered) with pointer set to the target SID B:4:C52 and the packet is discarded.  </li>
+<li>If the next SID is locally programmed, the node processes the upper layer header.  As part of the upper layer header processing node N4 responses with the ICMPv6 message (Type: Destination unreachable, Code: Port Unreachable).  </li>
+</ul>
+
+<p> </p>
+<pre>
+     &gt; traceroute srv6 B:4:C52 via segment-list B:2:C31
+
+     Tracing the route to SID function B:4:C52
+      1  2001:DB8:1:2:21 0.512 msec 0.425 msec 0.374 msec
+         SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=2)
+      2  2001:DB8:2:3:31 0.721 msec 0.810 msec 0.795 msec
+         SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=1)
+      3  2001:DB8:3:4::41 0.921 msec 0.816 msec 0.759 msec
+         SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=1)
+
+        Figure 4 A sample output for hop-by-hop traceroute to a SID function
+
+	
+	</pre>
+<p id="rfc.section.4.2.2.1.p.3">Figure 4 displays a sample traceroute output for this example.  </p>
+<h1 id="rfc.section.4.3">
+<a href="#rfc.section.4.3">4.3.</a> Monitoring of SRv6 Paths</h1>
+<p id="rfc.section.4.3.p.1">In the recent past, network operators are interested in performing network OAM functions in a centralized manner.  Various data models like YANG are available to collect data from the network and manage it from a centralized entity.  </p>
+<p id="rfc.section.4.3.p.2">SR technology enables a centralized OAM entity to perform path monitoring from centralized OAM entity without control plane intervention on monitored nodes. [RFC 8403] describes such a centralized OAM mechanism. Specifically, the draft describes a procedure that can be used to perform path continuity check between any nodes within an SR domain from a centralized monitoring system, with minimal or no control plane intervene on the nodes. However, the draft focuses on SR networks with MPLS data plane. The same concept applies to the SRv6 networks. This document describes how the concept can be used to perform path monitoring in an SRv6 network. This document describes how the concept can be used to perform path monitoring in an SRv6 network as follows.  </p>
+<p id="rfc.section.4.3.p.3">In the above reference topology, N100 is the centralized monitoring system implementing an END function B:100:1::. In order to verify a segment list &lt;B:2:C31, B:4:C52&gt;, N100 generates a probe packet with SRH set to (B:100:1::, B:4:C52, B:2:C31, SL=2). The controller routes the probe packet towards the first segment, which is B:2:C31. N2 performs the standard SRH processing and forward it over link3 with the DA of IPv6 packet set to B:4:C52. N4 also performs the normal SRH processing and forward it over link10 with the DA of IPv6 packet set to B:100:1::. This makes the probe loops back to the centralized monitoring system.  </p>
+<p id="rfc.section.4.3.p.4">In the reference topology in Figure 1, N100 uses an IGP protocol like OSPF or ISIS to get the topology view within the IGP domain.  N100 can also use BGP-LS to get the complete view of an inter-domain topology. In other words, the controller leverages the visibility of the topology to monitor the paths between the various endpoints without control plane intervention required at the monitored nodes.  </p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#Status" id="Status">Implementation Status</a>
+</h1>
+<p id="rfc.section.5.p.1">This section is to be removed prior to publishing as an RFC.  </p>
+<p id="rfc.section.5.p.2">See [I-D.matsushima-spring-srv6-deployment-status] for updated deployment and interoperability reports.  </p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#Security" id="Security">Security Considerations</a>
+</h1>
+<p id="rfc.section.6.p.1">This document does not define any new protocol extensions and relies on existing procedures defined for ICMP. This document does not impose any additional security challenges to be considered beyond security considerations described in [RFC4884], [RFC4443], [RFC792], RFCs that updates these RFCs, [I-D.ietf-6man-segment-routing-header] and [I-D.ietf-spring-srv6-network-programming].  </p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+</h1>
+<h1 id="rfc.section.7.1">
+<a href="#rfc.section.7.1">7.1.</a> ICMPv6 type Numbers RegistrySEC</h1>
+<p id="rfc.section.7.1.p.1">This document defines one ICMPv6 Message, a type that has been allocated from the "ICMPv6 'type' Numbers" registry of [RFC4443].  Specifically, it requests to add the following to the "ICMPv6 Type Numbers" registry: </p>
+
+<dl>
+<dt></dt>
+<dd style="margin-left: 8">TBA (suggested value: 162) SRv6 OAM Message.</dd>
+</dl>
+
+<p> </p>
+<pre>
+    Code  Name                                     Reference
+    --------------------------------------------------------
+     0     No Error                                This document
+     1     SID is not locally implemented          This document
+     2     O-flag punt at Transit                  This document    
+	
+	</pre>
+<p id="rfc.section.7.1.p.2">The document also requests the creation of a new IANA registry to the "ICMPv6 'Code' Fields" against the "ICMPv6 Type Numbers TBA - SRv6 OAM Message" with the following codes: </p>
+<h1 id="rfc.section.7.2">
+<a href="#rfc.section.7.2">7.2.</a> SRv6 OAM Endpoint Types</h1>
+<pre>
+        +------------------+-------------------+-----------+
+        | Value (Suggested | Endpoint Behavior | Reference |
+        | Value)           |                   |           |
+        +------------------+-------------------+-----------+
+        | TBA (40)         |        End.OP     | [This.ID] |
+        | TBA (41)         |        End.OTP    | [This.ID] |
+        +------------------+-------------------+-----------+
+	
+	</pre>
+<p id="rfc.section.7.2.p.1">This I-D requests to IANA to allocate, within the "SRv6 Endpoint Behaviors Registry" sub-registry belonging to the top-level "Segment-routing with IPv6 dataplane (SRv6) Parameters" registry [I-D.ietf-spring- srv6-network-programming], the following allocations: </p>
+<h1 id="rfc.section.8">
+<a href="#rfc.section.8">8.</a> <a href="#Acknowledgements" id="Acknowledgements">Acknowledgements</a>
+</h1>
+<p id="rfc.section.8.p.1">The authors would like to thank Gaurav Naik for his review comments. </p>
+<h1 id="rfc.section.9">
+<a href="#rfc.section.9">9.</a> <a href="#Contributors" id="Contributors">Contributors</a>
+</h1>
+<pre>
+   Robert Raszuk
+   Bloomberg LP
+   Email: robert@raszuk.net
+        
+        </pre>
+<pre>
+   John Leddy
+   Individual
+   Email: john@leddy.net
+        
+        </pre>
+<pre>
+   Gaurav Dawra
+   LinkedIn
+   Email: gdawra.ietf@gmail.com
+        
+        </pre>
+<pre>
+   Bart Peirens
+   Proximus
+   Email: bart.peirens@proximus.com
+        
+        </pre>
+<pre>
+   Nagendra Kumar
+   Cisco Systems, Inc.
+   Email: naikumar@cisco.com
+        
+        </pre>
+<pre>
+   Carlos Pignataro
+   Cisco Systems, Inc.
+   Email: cpignata@cisco.com
+        
+        </pre>
+<pre>
+   Rakesh Gandhi
+   Cisco Systems, Inc.
+   Canada
+   Email: rgandhi@cisco.com
+        
+        </pre>
+<pre>
+   Frank Brockners
+   Cisco Systems, Inc.
+   Germany
+   Email: fbrockne@cisco.com
+        
+        </pre>
+<pre>
+   Darren Dukes
+   Cisco Systems, Inc.
+   Email: ddukes@cisco.com 
+        
+        </pre>
+<pre>
+   Cheng Li
+   Huawei
+   Email: chengli13@huawei.com
+        
+        </pre>
+<pre>
+   Faisal Iqbal
+   Individual
+   Email: faisal.ietf@gmail.com
+        
+        </pre>
+<p id="rfc.section.9.p.1">The following people have contributed to this document: </p>
+<h1 id="rfc.references">
+<a href="#rfc.references">10.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">10.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-6man-segment-routing-header">[I-D.ietf-6man-segment-routing-header]</b></td>
+<td class="top">
+<a>Filsfils, C.</a>, <a>Dukes, D.</a>, <a>Previdi, S.</a>, <a>Leddy, J.</a>, <a>Matsushima, S.</a> and <a>D. Voyer</a>, "<a href="https://tools.ietf.org/html/draft-ietf-6man-segment-routing-header-26">IPv6 Segment Routing Header (SRH)</a>", Internet-Draft draft-ietf-6man-segment-routing-header-26, October 2019.</td>
+</tr>
+<tr>
+<td class="reference"><b id="I-D.ietf-spring-srv6-network-programming">[I-D.ietf-spring-srv6-network-programming]</b></td>
+<td class="top">
+<a>Filsfils, C.</a>, <a>Camarillo, P.</a>, <a>Leddy, J.</a>, <a>Voyer, D.</a>, <a>Matsushima, S.</a> and <a>Z. Li</a>, "<a href="https://tools.ietf.org/html/draft-ietf-spring-srv6-network-programming-08">SRv6 Network Programming</a>", Internet-Draft draft-ietf-spring-srv6-network-programming-08, January 2020.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">10.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.matsushima-spring-srv6-deployment-status">[I-D.matsushima-spring-srv6-deployment-status]</b></td>
+<td class="top">
+<a>Matsushima, S.</a>, <a>Filsfils, C.</a>, <a>Ali, Z.</a> and <a>Z. Li</a>, "<a href="https://tools.ietf.org/html/draft-matsushima-spring-srv6-deployment-status-05">SRv6 Implementation and Deployment Status</a>", Internet-Draft draft-matsushima-spring-srv6-deployment-status-05, January 2020.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC0792">[RFC0792]</b></td>
+<td class="top">
+<a>Postel, J.</a>, "<a href="https://tools.ietf.org/html/rfc792">Internet Control Message Protocol</a>", STD 5, RFC 792, DOI 10.17487/RFC0792, September 1981.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4443">[RFC4443]</b></td>
+<td class="top">
+<a>Conta, A.</a>, <a>Deering, S.</a> and <a>M. Gupta</a>, "<a href="https://tools.ietf.org/html/rfc4443">Internet Control Message Protocol (ICMPv6) for the Internet Protocol Version 6 (IPv6) Specification</a>", STD 89, RFC 4443, DOI 10.17487/RFC4443, March 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC4884">[RFC4884]</b></td>
+<td class="top">
+<a>Bonica, R.</a>, <a>Gan, D.</a>, <a>Tappan, D.</a> and <a>C. Pignataro</a>, "<a href="https://tools.ietf.org/html/rfc4884">Extended ICMP to Support Multi-Part Messages</a>", RFC 4884, DOI 10.17487/RFC4884, April 2007.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5837">[RFC5837]</b></td>
+<td class="top">
+<a>Atlas, A.</a>, <a>Bonica, R.</a>, <a>Pignataro, C.</a>, <a>Shen, N.</a> and <a>JR. Rivers</a>, "<a href="https://tools.ietf.org/html/rfc5837">Extending ICMP for Interface and Next-Hop Identification</a>", RFC 5837, DOI 10.17487/RFC5837, April 2010.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8403">[RFC8403]</b></td>
+<td class="top">
+<a>Geib, R.</a>, <a>Filsfils, C.</a>, <a>Pignataro, C.</a> and <a>N. Kumar</a>, "<a href="https://tools.ietf.org/html/rfc8403">A Scalable and Topology-Aware MPLS Data-Plane Monitoring System</a>", RFC 8403, DOI 10.17487/RFC8403, July 2018.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Zafar Ali</span> 
+	  <span class="n hidden">
+		<span class="family-name">Ali</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:zali@cisco.com">zali@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Clarence Filsfils</span> 
+	  <span class="n hidden">
+		<span class="family-name">Filsfils</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco Systems</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:cfilsfil@cisco.com">cfilsfil@cisco.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Satoru Matsushima</span> 
+	  <span class="n hidden">
+		<span class="family-name">Matsushima</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Softbank</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:satoru.matsushima@g.softbank.co.jp">satoru.matsushima@g.softbank.co.jp</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Daniel Voyer</span> 
+	  <span class="n hidden">
+		<span class="family-name">Voyer</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Bell Canada</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:daniel.voyer@bell.ca">daniel.voyer@bell.ca</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Mach Chen</span> 
+	  <span class="n hidden">
+		<span class="family-name">Chen</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Huawei</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:mach.chen@huawei.com">mach.chen@huawei.com</a></span>
+
+  </address>
+</div>
+
+</body>
+</html>
