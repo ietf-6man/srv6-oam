@@ -344,21 +344,21 @@
      </t>  
 
       <t> When N receives a packet whose IPv6 DA is S and S is a local SID, 
-the line S01 of the 
-the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of 
-[I-D.ietf-6man-segment-routing-header], is modified as follows for the O-flag processing.
+the line S01 of the pseudo-code associated with the SID S,  as defined 
+in section 4.3.1.1 of [I-D.ietf-6man-segment-routing-header], 
+is modified as follows for the O-flag processing.
 
      </t>  
 
      <figure> <artwork><![CDATA[
-     S01.1. IF SRH.Flags.O-flag is set and local configuration permits 
-            O-flag processing THEN
-            a. Make a copy of the packet.    
-            b. Send the copied packet, along with a timestamp 
-               to the OAM process.      ;; Ref1
-     Ref1: An implementation SHOULD copy and record the timestamp as soon as 
-     possible during packet processing. Timestamp is not carried in the packet 
-     forwarded to the next hop.
+   S01.1. IF SRH.Flags.O-flag is set and local configuration permits 
+          O-flag processing THEN
+             a. Make a copy of the packet.    
+             b. Send the copied packet, along with a timestamp 
+             to the OAM process.      ;; Ref1
+   Ref1: An implementation SHOULD copy and record the timestamp as 
+   soon as possible during packet processing. Timestamp is not 
+   carried in the packet forwarded to the next hop.
 	]]>
 	</artwork> </figure>  
 	
@@ -566,8 +566,8 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
           <t>Verify that the SID is locally instantiated.</t>
 
           <t>Verify that the SID is instantiated in the data plane 
-          (this may include verification of the SID in NPUs or forwarding hardware, 
-          as applicable).</t>
+          (this may include verification of the SID in Network Processor 
+          Units (NPUs) or forwarding hardware, as applicable).</t>
           </list> 
           
      </t> 
@@ -760,8 +760,8 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
           <list style="symbols">
           <t>Verify that the SID is locally instantiated. </t>
           <t>Verify that the SID is instantiated in the data plane (this
-           may include verification of the SID in NPUs or forwarding hardware, 
-           as applicable).</t>
+           may include verification of the SID in Network Processor Units (NPUs) 
+           or forwarding hardware, as applicable).</t>
           </list>      
      </t>
 
@@ -840,7 +840,7 @@ the pseudo-code associated with the SID S,  as defined in section 4.3.1.1 of
       3  2001:DB8:3:4::41 0.921 msec 0.816 msec 0.759 msec
          SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=1)
 
-        Figure 4 A sample output for hop-by-hop traceroute to a SID function
+        Figure 4 A sample output for hop-by-hop traceroute to a SID
 
 	]]>
 	</artwork> </figure>            
