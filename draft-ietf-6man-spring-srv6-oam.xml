@@ -125,11 +125,6 @@
 
     </abstract>
 
-    <note title="Requirements Language">
-      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
-      document are to be interpreted as described in [RFC2119].</t>
-    </note>
   </front>
 
 <middle>
@@ -137,12 +132,15 @@
     <section title="Introduction">
       <t>This document defines building blocks for
      Operations, Administration, and Maintenance (OAM) in Segment Routing
-     Networks with IPv6 Dataplane (SRv6). The document also describes
-     some SRv6 OAM mechanisms. </t>
+     Networks with IPv6 Dataplane (SRv6).  </t>
 
 	</section> 
 
-    <section title="Conventions Used in This Document">
+    <section title="Requirements Language">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+      document are to be interpreted as described in [RFC2119], [RFC8174].</t>
+    </section>
     
 	<section title="Abbreviations">
 
@@ -153,7 +151,7 @@
             <t> SID: Segment ID.
             </t>
 
-            <t> SL: Segment Left.
+            <t> SL: Segments Left.
            </t>
             
             <t> SR: Segment Routing.
@@ -204,20 +202,20 @@
 
         <list style="empty">
             
+            <t> Node k has a classic IPv6 loopback address A:k::/128.
+           </t>
+
             <t> Nodes N1, N2, and N4 are SRv6 capable nodes.
             </t>
 
-            <t> Nodes N3, N5 and N6 are classic IPv6 nodes.
+            <t> Nodes N3, N5 and N6 are non-SRv6 (classic IPv6) nodes.
            </t>
-            
-            <t> Node N100 is a controller.
-           </t>
-
-            <t> Node k has a classic IPv6 loopback address A:k::/128.
-           </t>
-            
+                                  
             <t> A SID at node k with locator block B and function F is represented
      by B:k:F::.
+           </t>
+
+            <t> Node N100 is a controller.
            </t>
            
            <t> The IPv6 address of the nth Link between node X and Y at the X side
@@ -228,7 +226,7 @@
            </t>
 
            <t> B:k:Cij:: is explicitly allocated as the END.X function at node k 
-     towards neighbor node i via jth Link between node i and node j. 
+     towards neighbor node i via jth Link between node i and node k. 
      e.g., B:2:C31:: represents END.X at N2 towards N3 via link3 (the 1st 
      link between N2 and N3). Similarly, B:4:C52:: represents the END.X at 
      N4 towards N5 via link10.
@@ -270,13 +268,11 @@
            
            <t> 
            SRH[SL] represents the SID pointed by the SL field in the first SRH.
-   In our example, SRH[2] represents S1, SRH[1] represents S2 and SRH[0]
-   represents S3.
+   In our example SID list (S3, S2, S1; SL), SRH[2] represents S1, 
+   SRH[1] represents S2 and SRH[0] represents S3.
            </t>
            
           </list></t>      
-
-    </section>
 
     </section>
     
@@ -290,8 +286,7 @@
 
       <t>[I-D.ietf-6man-segment-routing-header] describes the Segment
      Routing Header (SRH) and how SR capable nodes use it. The SRH
-     contains an 8-bit "Flags" field [I-D.draft-ietf-6man-segment-
-     routing-header]. This document defines the following bit in the
+     contains an 8-bit "Flags" field. This document defines the following bit in the
      SRH.Flags to carry the O-flag: </t>
       
       <figure> <artwork><![CDATA[
@@ -306,7 +301,7 @@
         <list style="hanging">
             
             <t> O-flag: OAM flag. When set, it indicates that this packet is an
-          operations and management (OAM) packet. This document defines
+          Operation Administration and Maintenance (OAM) packet. This document defines
           the usage of the O-flag in the SRH.Flags.
             </t>
 
@@ -450,7 +445,7 @@ is modified as follows for the O-flag processing.
      [RFC4443], [RFC4884] or standard ICMPv4 [RFC792] or [RFC2151].
      </t>	
 	
-	<section title="Ping">
+	<section title="Ping in SRv6 Networks">
      
       <t> The following subsections outline some use cases of the ICMP ping in
      the SRv6 networks. 
@@ -925,12 +920,12 @@ is modified as follows for the O-flag processing.
 
     <section anchor="IANA" title="IANA Considerations">
 
-<section title="ICMPv6 type Numbers RegistrySEC">
+<section title="ICMPv6 type Numbers Registry">
 
-     <t>  This document defines one ICMPv6 Message, a type that has been
-     allocated from the "ICMPv6 'type' Numbers" registry of [RFC4443].
-     Specifically, it requests to add the following to the "ICMPv6 Type
-     Numbers" registry: 
+     <t>  This document defines one ICMPv6 type Number in the 
+     "ICMPv6 'type' Numbers" registry of [RFC4443].
+     Specifically, the document requests to add the following ICMPv6 type Number 
+     to the "ICMPv6 Type Numbers" registry: 
      <list style="hanging">
           <t>TBA (suggested value: 162) SRv6 OAM Message.</t>
      </list>      
@@ -946,7 +941,6 @@ is modified as follows for the O-flag processing.
     --------------------------------------------------------
      0     No Error                                This document
      1     SID is not locally implemented          This document
-     2     O-flag punt at Transit                  This document    
 	]]>
 	</artwork> </figure>  
      
@@ -959,7 +953,7 @@ is modified as follows for the O-flag processing.
      <t>  This I-D requests to IANA to allocate, within the "SRv6 Endpoint
      Behaviors Registry" sub-registry belonging to the top-level
      "Segment-routing with
-     IPv6 dataplane (SRv6) Parameters" registry [I-D.ietf-spring-
+     IPv6 data plane (SRv6) Parameters" registry [I-D.ietf-spring-
      srv6-network-programming], the following allocations: 
 
      <figure> <artwork><![CDATA[
@@ -972,10 +966,18 @@ is modified as follows for the O-flag processing.
         +------------------+-------------------+-----------+
 	]]>
 	</artwork> </figure>  
-	     
+    </t>
+    
+    </section> <!--end: SRv6 OAM Endpoint Types-->        
+	
+	<section title="Segment Routing Header Flags">
+
+     <t>  This I-D requests to IANA to allocate bit position 2, within the 
+     "Segment Routing Header Flags" registry defined in 
+     [I-D.draft-ietf-6man-segment-routing-header]. 	
      </t> 
      	    
-    </section> <!--end: SRv6 OAM Endpoint Types-->        
+    </section> <!--end: O-bit-->        
 
     </section>  <!--end: IANA Considerations-->    
 
