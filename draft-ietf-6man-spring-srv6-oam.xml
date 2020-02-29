@@ -322,6 +322,9 @@
       (like ICMP, UDP, 
       etc.) payload. However, the OAM process MAY export the time-stamped 
       copy of the packet to a controller using e.g., IPFIX [RFC7011]. 
+      If  data from the last node in the segment-list (Egress node) is
+   desired, the ingress uses an Ultimate Segment Pop (USP) SID
+   advertised by the Egress node. 
       To avoid hitting any performance impact, the processing node SHOULD 
       rate-limit the number of packets punted to the OAM process. 
       Specification of the OAM process or the external controller operations 
