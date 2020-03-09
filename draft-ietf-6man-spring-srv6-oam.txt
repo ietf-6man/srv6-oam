@@ -5,13 +5,13 @@
 6man                                                              Z. Ali
 Internet-Draft                                               C. Filsfils
 Intended status: Standards Track                           Cisco Systems
-Expires: September 1, 2020                                 S. Matsushima
+Expires: September 10, 2020                                S. Matsushima
                                                                 Softbank
                                                                 D. Voyer
                                                              Bell Canada
                                                                  M. Chen
                                                                   Huawei
-                                                       February 29, 2020
+                                                           March 9, 2020
 
 
   Operations, Administration, and Maintenance (OAM) in Segment Routing
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 1, 2020.
+   This Internet-Draft will expire on September 10, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Ali, et al.             Expires September 1, 2020               [Page 1]
+Ali, et al.            Expires September 10, 2020               [Page 1]
 
-Internet-Draft                  SRv6 OAM                   February 2020
+Internet-Draft                  SRv6 OAM                      March 2020
 
 
    carefully, as they describe your rights and restrictions with respect
@@ -67,35 +67,30 @@ Internet-Draft                  SRv6 OAM                   February 2020
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   3
+   2.  Requirements Language . . . . . . . . . . . . . . . . . . . .   2
    3.  Abbreviations . . . . . . . . . . . . . . . . . . . . . . . .   3
    4.  Terminology and Reference Topology  . . . . . . . . . . . . .   3
-   5.  OAM Building Blocks . . . . . . . . . . . . . . . . . . . . .   5
+   5.  OAM Mechanisms  . . . . . . . . . . . . . . . . . . . . . . .   5
      5.1.  O-flag in Segment Routing Header  . . . . . . . . . . . .   5
        5.1.1.  O-flag Processing . . . . . . . . . . . . . . . . . .   5
-     5.2.  OAM Segments  . . . . . . . . . . . . . . . . . . . . . .   6
-     5.3.  End.OP: OAM Endpoint with Punt  . . . . . . . . . . . . .   6
-     5.4.  End.OTP: OAM Endpoint with Timestamp and Punt . . . . . .   7
-   6.  OAM Mechanisms  . . . . . . . . . . . . . . . . . . . . . . .   7
-     6.1.  Ping in SRv6 Networks . . . . . . . . . . . . . . . . . .   7
-       6.1.1.  Classic Ping  . . . . . . . . . . . . . . . . . . . .   7
-       6.1.2.  Pinging a SID . . . . . . . . . . . . . . . . . . . .   9
-     6.2.  Traceroute  . . . . . . . . . . . . . . . . . . . . . . .  10
-       6.2.1.  Classic Traceroute  . . . . . . . . . . . . . . . . .  11
-       6.2.2.  Traceroute to a SID . . . . . . . . . . . . . . . . .  12
-     6.3.  Monitoring of SRv6 Paths  . . . . . . . . . . . . . . . .  15
-   7.  Implementation Status . . . . . . . . . . . . . . . . . . . .  16
-   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  16
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  16
-     9.1.  ICMPv6 type Numbers Registry  . . . . . . . . . . . . . .  16
-     9.2.  SRv6 OAM Endpoint Types . . . . . . . . . . . . . . . . .  16
-     9.3.  Segment Routing Header Flags  . . . . . . . . . . . . . .  17
-   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  17
-   11. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  17
-   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  18
-     12.1.  Normative References . . . . . . . . . . . . . . . . . .  18
-     12.2.  Informative References . . . . . . . . . . . . . . . . .  19
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
+   6.  Illustrations . . . . . . . . . . . . . . . . . . . . . . . .   6
+     6.1.  Ping in SRv6 Networks . . . . . . . . . . . . . . . . . .   6
+       6.1.1.  Classic Ping  . . . . . . . . . . . . . . . . . . . .   6
+       6.1.2.  Pinging a SID . . . . . . . . . . . . . . . . . . . .   8
+     6.2.  Traceroute  . . . . . . . . . . . . . . . . . . . . . . .   9
+       6.2.1.  Classic Traceroute  . . . . . . . . . . . . . . . . .   9
+       6.2.2.  Traceroute to a SID . . . . . . . . . . . . . . . . .  10
+     6.3.  Monitoring of SRv6 Paths  . . . . . . . . . . . . . . . .  12
+   7.  Implementation Status . . . . . . . . . . . . . . . . . . . .  13
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
+     9.1.  Segment Routing Header Flags  . . . . . . . . . . . . . .  13
+   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  13
+   11. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  15
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  15
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  16
 
 1.  Introduction
 
@@ -103,22 +98,21 @@ Table of Contents
    and Maintenance (OAM) in Segment Routing Networks with IPv6 Dataplane
    (SRv6).
 
-
-
-
-
-
-
-Ali, et al.             Expires September 1, 2020               [Page 2]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
 2.  Requirements Language
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
    document are to be interpreted as described in [RFC2119], [RFC8174].
+
+
+
+
+
+
+Ali, et al.            Expires September 10, 2020               [Page 2]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
 
 3.  Abbreviations
 
@@ -162,19 +156,19 @@ Internet-Draft                  SRv6 OAM                   February 2020
                             Figure 1 Reference Topology
 
 
-
-
-
-Ali, et al.             Expires September 1, 2020               [Page 3]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
    In the reference topology:
 
       Node k has a classic IPv6 loopback address A:k::/128.
 
       Nodes N1, N2, and N4 are SRv6 capable nodes.
+
+
+
+
+Ali, et al.            Expires September 10, 2020               [Page 3]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
 
       Nodes N3, N5 and N6 are non-SRv6 (classic IPv6) nodes.
 
@@ -218,22 +212,28 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
       *  (payload) represents the the payload of the packet.
 
-
-
-
-Ali, et al.             Expires September 1, 2020               [Page 4]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
       SRH[SL] represents the SID pointed by the SL field in the first
       SRH.  In our example SID list (S3, S2, S1; SL), SRH[2] represents
       S1, SRH[1] represents S2 and SRH[0] represents S3.
 
-5.  OAM Building Blocks
 
-   This section defines the various building blocks for implementing OAM
-   mechanisms in SRv6 networks.
+
+
+
+
+Ali, et al.            Expires September 10, 2020               [Page 4]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
+5.  OAM Mechanisms
+
+   As Segment Routing with IPv6 data plane (SRv6) simply adds a new type
+   of Routing Extension Header, existing IPv6 OAM mechanisms can be used
+   in an SRv6 network.
+
+   This section defines the O-flag for implementing a controller based
+   extended OAM mechanism in SRv6 networks.
 
 5.1.  O-flag in Segment Routing Header
 
@@ -277,9 +277,9 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
 
 
-Ali, et al.             Expires September 1, 2020               [Page 5]
+Ali, et al.            Expires September 10, 2020               [Page 5]
 
-Internet-Draft                  SRv6 OAM                   February 2020
+Internet-Draft                  SRv6 OAM                      March 2020
 
 
    Implementation of the O-flag is OPTIONAL.  If a node does not support
@@ -307,74 +307,10 @@ Internet-Draft                  SRv6 OAM                   February 2020
    Please note that the O-flag processing happens before execution of
    regular processing of the local SID S.
 
-5.2.  OAM Segments
+6.  Illustrations
 
-   The presence of an OAM SID in the Destination address of the IPv6
-   header instructs the segment endpoint implementing the OAM SID that
-   the content of the packet is of interest to the node and to process
-   the upper-layer payload, accordingly.  The OAM SIDs terminate the
-   forwarding of the probe packets for the upper layer processing.
-
-   As OAM SIDs terminate the forwarding of the probe packets for the
-   upper layer processing, they are not designed for implementing In-
-   situ OAM mechanisms defined in [I.D-draft-ietf-ippm-ioam-data].
-
-5.3.  End.OP: OAM Endpoint with Punt
-
-   When N receives a packet destined to S and S is a local End.OP SID, N
-   does:
-
-        S01.   Send the packet to the OAM process
-
-
-   The local OAM process further processes the packet, this MAY involve
-   processing protocol layers above IPv6.  For example, ping and
-   traceroute will require ICMP or UDP protocol processing.  Once the
-
-
-
-Ali, et al.             Expires September 1, 2020               [Page 6]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
-   packet leaves the IPv6 layer the processing is considered host
-   processing and the upper layer protocols MUST be processed as such.
-
-5.4.  End.OTP: OAM Endpoint with Timestamp and Punt
-
-   When N receives a packet destined to S and S is a local End.OTP SID,
-   N does:
-
-      S01.1. Timestamp the packet ;; Ref1
-      S01.2. Send the packet, along with a timestamp, to the
-      OAM process
-      Ref1: Timestamping SHOULD be done in hardware, as soon as possible
-      during the packet processing.
-
-
-   The local OAM process further processes the packet, this MAY involve
-   processing protocol layers above IPv6.  For example, ping and
-   traceroute will require ICMP or UDP protocol processing.  Once the
-   packet leaves the IPv6 layer the processing is considered host
-   processing and the upper layer protocols MUST be processed as such.
-
-6.  OAM Mechanisms
-
-   This section describes how OAM mechanisms can be implemented using
-   the OAM building blocks described in the previous section.
-
-   [RFC4443] describes Internet Control Message Protocol for IPv6
-   (ICMPv6) that is used by IPv6 devices for network diagnostic and
-   error reporting purposes.  As Segment Routing with IPv6 data plane
-   (SRv6) simply adds a new type of Routing Extension Header, existing
-   ICMPv6 ping mechanisms can be used in an SRv6 network.  This section
-   describes the applicability of ICMPv6 in the SRv6 network and how the
-   existing ICMPv6 mechanisms can be used for providing OAM
-   functionality.
-
-   The document does not propose any changes to the standard ICMPv6
-   [RFC4443], [RFC4884] or standard ICMPv4 [RFC792] or [RFC2151].
+   This section illustrates the use of existing IPv6 OAM mechanisms in
+   the SRv6 network.
 
 6.1.  Ping in SRv6 Networks
 
@@ -386,14 +322,6 @@ Internet-Draft                  SRv6 OAM                   February 2020
    The existing mechanism to query liveliness of a remote IP address,
    along the shortest path, continues to work without any modification.
    The initiator may be an SRv6 node or a classic IPv6 node.  Similarly,
-
-
-
-Ali, et al.             Expires September 1, 2020               [Page 7]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
    the egress or transit may be an SRv6 capable node or a classic IPv6
    node.
 
@@ -402,6 +330,14 @@ Internet-Draft                  SRv6 OAM                   February 2020
    with an SR header containing the SID list <S1, S2, S3>.  This is
    illustrated using the topology in Figure 1.  Assume all the links
    have IGP metric 10 except both links between node2 and node3, which
+
+
+
+Ali, et al.            Expires September 10, 2020               [Page 6]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
    have IGP metric set to 100.  User issues a ping from node N1 to a
    loopback of node 5, via segment list <B:2:C31, B:4:C52>.
 
@@ -428,7 +364,9 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
    o  Node N1 initiates an ICMPv6 ping packet with SRH as follows
       (A:1::, B:2:C31)(A:5::, B:4:C52, B:2:C31, SL=2, NH =
-      ICMPv6)(ICMPv6 Echo Request).
+      ICMPv6)(ICMPv6 Echo Request).  If B:4:C52 is a PSP SID, the OAM
+      probes encodes the PSP SID in the packet (just mimicking data
+      packets).  No special consideration is needed to handle PSP SIDs.
 
    o  Node N2, which is an SRv6 capable node, performs the standard SRH
       processing.  Specifically, it executes the END.X function
@@ -436,117 +374,81 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
    o  Node N3, which is a classic IPv6 node, performs the standard IPv6
       processing.  Specifically, it forwards the echo request based on
-      DA B:4:C52 in the IPv6 header.
+      the DA B:4:C52 in the IPv6 header.
 
    o  Node N4, which is an SRv6 capable node, performs the standard SRH
       processing.  Specifically, it observes the END.X function
-      (B:4:C52) and forwards the packet on link10 towards N5.
+      (B:4:C52) and forwards the packet on link10 towards N5.  If
+      B:4:C52 is a PSP SID, The penultimate node (Node N4) does not,
+      should no and cannot differentiate between the data packets and
+      OAM probes.  Specifically, if B:4:C52B:4:C52 is a PSP SID, node N4
+      executes the SID like any other data packet with DA = B:4:C52 and
+      removes the SRH.
 
 
 
 
-Ali, et al.             Expires September 1, 2020               [Page 8]
+
+Ali, et al.            Expires September 10, 2020               [Page 7]
 
-Internet-Draft                  SRv6 OAM                   February 2020
+Internet-Draft                  SRv6 OAM                      March 2020
 
 
    o  The echo request packet at N5 arrives as an IPv6 packet with or
       without an SRH.  If N5 receives the packet with SRH, it skips SRH
       processing.  In either case, Node N5 performs the standard IPv6/
-      ICMPv6 processing on the echo request and responds using ICMPv6
-      Echo Reply, accordingly.
+      ICMPv6 processing on the echo request.
 
 6.1.2.  Pinging a SID
 
-   The classic ping described in the previous section cannot be used to
+   The classic ping described in the previous section applies equally to
    ping a remote SID function, as explained using an example in the
    following.
 
-   Consider the case where the user wants to ping the remote SID
-   function B:4:C52 from node N1.  Node N1 constructs the ping packet
-   (A:1::, B:4:C52)(ICMPv6 Echo Request).  The ping fails because the
-   node N4 receives the ICMPv6 echo request with DA set to B:4:C52 but
-   the effective next header is ICMPv6, instead of SRH.
-
-   To perform ICMPv6 ping to a target SID an echo request message is
-   generated by the initiator with the END.OP or END.OTP SID in the
-   segment-list of the SRH immediately preceding the target SID.  There
-   may be additional segments preceding the END.OP/ END.OTP SID.
-
-   When the node instantiating a SID S of type END.OP or END.OTP
-   receives a packet with S in the destination address of the IPv6
-   header it sends it to the OAM process.  The OAM process verifies the
-   segment following S is a locally instantiated SID.  It then processes
-   the Upper layer header of the packet, as a host, responding to the
-   echo request message in the ICMPv6 payload.
-
-   When the segment following S is not verified by the OAM process an
-   ICMPv6 error message type 4 (parameter problem) code 0 (erroneous
-   header field encountered) with pointer set to the segment following S
-   (the target SID) is generated for the packet and the packet is
-   discarded.
-
-   An implementation of the OAM process SID verification SHOULD do the
-   following:
-
-   o  Verify that the SID is locally instantiated.
-
-   o  Verify that the SID is instantiated in the data plane (this may
-      include verification of the SID in Network Processor Units (NPUs)
-      or forwarding hardware, as applicable).
-
-
-
-
-
-
-
-Ali, et al.             Expires September 1, 2020               [Page 9]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
-6.1.2.1.  Ping using END.OP/ END.OTP
-
-   This section uses END.OTP SID for the ping illustration but the
-   procedures are equally applicable to the END.OP SID.
-
    Consider the example where the user wants to ping a remote SID
-   function B:4:C52, via B:2:C31, from node N1.  To force a punt of the
-   ICMPv6 echo request at the node N4, node N1 inserts the END.OTP SID
-   just before the target SID B:4:C52 in the SRH.  The ICMPv6 echo
-   request is processed at the individual nodes along the path as
-   follows:
+   function B:4, via B:2:C31, from node N1.  The ICMPv6 echo request is
+   processed at the individual nodes along the path as follows:
 
    o  Node N1 initiates an ICMPv6 ping packet with SRH as follows
-      (A:1::, B:2:C31)(B:4:C52, B:4:OTP, B:2:C31; SL=2;
-      NH=ICMPv6)(ICMPv6 Echo Request).
+      (A:1::, B:2:C31)(B:4, B:2:C31; SL=1; NH=ICMPv6)(ICMPv6 Echo
+      Request).  If B:2:C31 is a PSP SID, the OAM probes encodes the PSP
+      SID in the packet (just mimicking data packets).  No special
+      consideration is needed to handle PSP SIDs.
 
    o  Node N2, which is an SRv6 capable node, performs the standard SRH
       processing.  Specifically, it executes the END.X function
-      (B:2:C31) on the echo request packet.
+      (B:2:C31) on the echo request packet.  If B:2:C31 is a PSP SID,
+      node N4 executes the SID like any other data packet with DA =
+      B:2:C31 and removes the SRH.
 
-   o  Node N3 receives the packet as follows (A:1::, B:4:OTP)(B:4:C52,
-      B:4:OTP, B:2:C31 ; SL=1; NH=ICMPv6)(ICMPv6 Echo Request).  Node
-      N3, which is a classic IPv6 node, performs the standard IPv6
+   o  Node N3, which is a classic IPv6 node, performs the standard IPv6
       processing.  Specifically, it forwards the echo request based on
-      DA B:4:OTP in the IPv6 header.
+      DA = B:4 in the IPv6 header.
 
-   o  When node N4 receives the packet (A:1::, B:4:OTP)(B:4:C52,
-      B:4:OTP, B:2:C31 ; SL=1; NH=ICMPv6)(ICMPv6 Echo Request), it
-      processes the END.OTP SID, as described in the pseudocode in
-      Section 3.  The packet gets time-stamped and punted to the OAM
-      process for processing.  The OAM process checks if the next SID in
-      SRH (the target SID B:4:C52) is locally programmed.
+   o  When node N4 receives the packet, it processes the B:4 SID, as
+      described in the pseudocode in [I-D.ietf-spring-srv6-network-
+      programming].
 
-   o  If the next SID is not locally programmed, the OAM process returns
+   o  If the B:4 SID is not locally programmed, the OAM process returns
       an ICMPv6 error message type 4 (parameter problem) code 0
       (erroneous header field encountered) with pointer set to the
-      target SID B:4:C52 and the packet is discarded.
+      target SID B:4 and the packet is discarded
 
-   o  If the next SID is locally programmed, the node processes the
-      upper layer header.  As part of the upper layer header (ICMPv6)
-      processing node N4 sends the ICMPv6 Echo Reply message [RFC4443].
+   o  If the target SID (B:4) is locally programmed, the node processes
+      the upper layer header.  As part of the upper layer header
+      processing node N4 responses to the ICMPv6 echo request message.
+
+
+
+
+
+
+
+
+Ali, et al.            Expires September 10, 2020               [Page 8]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
 
 6.2.  Traceroute
 
@@ -554,14 +456,6 @@ Internet-Draft                  SRv6 OAM                   February 2020
    operation at the classic IPv6 nodes in an SRv6 network.  That
    includes the classic IPv6 node with ingress, egress or transit roles.
    Furthermore, no protocol changes are required to the standard
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 10]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
    traceroute operations.  In other words, existing traceroute
    mechanisms work seamlessly in the SRv6 networks.
 
@@ -570,7 +464,7 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
 6.2.1.  Classic Traceroute
 
-   The existing mechanism to traceroute a remote IP prefix, along the
+   The existing mechanism to traceroute a remote IP address, along the
    shortest path, continues to work without any modification.  The
    initiator may be an SRv6 node or a classic IPv6 node.  Similarly, the
    egress or transit may be an SRv6 node or a classic IPv6 node.
@@ -604,20 +498,19 @@ Internet-Draft                  SRv6 OAM                   February 2020
    classic IPv6 node.  Nonetheless, the ingress node is able to display
    SR header contents as the packet travels through the IPv6 classic
    node.  This is because the "Time Exceeded Message" ICMPv6 message can
+
+
+
+Ali, et al.            Expires September 10, 2020               [Page 9]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
    contain as much of the invoking packet as possible without the ICMPv6
    packet exceeding the minimum IPv6 MTU [RFC4443].  The SR header is
    also included in these ICMPv6 messages initiated by the classic IPv6
    transit nodes that are not running SRv6 software.  Specifically, a
    node generating ICMPv6 message containing a copy of the invoking
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 11]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
    packet does not need to understand the extension header(s) in the
    invoking packet.
 
@@ -650,151 +543,95 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
 6.2.2.  Traceroute to a SID
 
-   The classic traceroute described in the previous section cannot be
-   used to traceroute a remote SID function, as explained using an
+   The classic traceroute described in the previous section applies
+   equally to traceroute a remote SID function, as explained using an
    example in the following.
 
-   Consider the case where the user wants to traceroute the remote SID
-   function B:4:C52 from node N1.  The trace route fails at N4.  This is
-   because the node N4 receives a trace route probe where next header is
-   UDP or ICMPv6, instead of SRH (even though the hop limit is set to
-   1).
-
-   To traceroute a target SID a probe message is generated by the
-   initiator with the END.OP or END.OTP SID in the segment-list of the
-   SRH immediately preceding the target SID.  There may be additional
-   segments preceding the END.OP/ END.OTP SID.
+   Consider the example where the user wants to traceroute a remote SID
+   function B:4, via B:2:C31, from node N1.  The traceroute probe is
+   processed at the individual nodes along the path as described in the
+   following.
 
 
 
 
 
-Ali, et al.             Expires September 1, 2020              [Page 12]
+
+Ali, et al.            Expires September 10, 2020              [Page 10]
 
-Internet-Draft                  SRv6 OAM                   February 2020
+Internet-Draft                  SRv6 OAM                      March 2020
 
 
-   The node instantiating a SID S of type END.OP or END.OTP receives a
-   packet with S in the destination address of the IPv6 header and sends
-   it to the OAM process (before processing the TTL).  The OAM process
-   verifies the segment following S is a locally instantiated SID.  It
-   then processes the Upper layer header of the packet, as a host,
-   responding to the probe message.
+   Please note that traceroute to a SID function is exemplified using
+   UDP probes.  However, the procedure is equally applicable to other
+   implementation of traceroute mechanism.
 
-   When the segment following S is not verified by the OAM process an
-   ICMPv6 error message type 4 (parameter problem) code 0 (erroneous
-   header field encountered) with pointer set to the segment following S
-   (the target SID) is generated for the packet and the packet is
-   discarded.
-
-   An implementation of the OAM process SID verification SHOULD do the
-   following:
-
-   o  Verify that the SID is locally instantiated.
-
-   o  Verify that the SID is instantiated in the data plane (this may
-      include verification of the SID in Network Processor Units (NPUs)
-      or forwarding hardware, as applicable).
-
-6.2.2.1.  Traceroute using END.OP/ END.OTP
-
-   In this section, hop-by-hop traceroute to a SID function is
-   exemplified using UDP probes.  However, the procedure is equally
-   applicable to other implementation of traceroute mechanism.
-   Furthermore, the illustration uses the END.OTP SID but the procedures
-   are equally applicable to the END.OP SID.
-
-   Consider the same example where the user wants to traceroute to a
-   remote SID function B:4:C52, via B:2:C31, from node N1.  To force a
-   punt of the traceroute probe only at the node N4, node N1 inserts the
-   END.OTP SID just before the target SID B:4:C52 in the SRH.  The
-   traceroute probe is processed at the individual nodes along the path
-   as follows:
+   Consider the example where the user wants to traceroute to a remote
+   SID function B:4, via B:2:C31, from node N.  The traceroute probe is
+   processed at the individual nodes along the path as follows:
 
    o  Node N1 initiates a traceroute probe packet with a monotonically
       increasing value of hop count and SRH as follows (A:1::,
-      B:2:C31)(B:4:C52, B:4:OTP, B:2:C31; SL=2; NH=UDP)(Traceroute
-      probe).
+      B:2:C31)(B:4, B:2:C31; SL=1; NH=UDP)(Traceroute probe).  If
+      B:2:C31 is a PSP SID, the OAM probes encodes the PSP SID in the
+      packet (just mimicking data packets).  No special consideration is
+      needed to handle PSP SIDs.
 
    o  When node N2 receives the packet with hop-count = 1, it processes
       the hop count expiry.  Specifically, the node N2 responses with
       the ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live
       exceeded in Transit").
 
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 13]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
    o  When Node N2 receives the packet with hop-count > 1, it performs
       the standard SRH processing.  Specifically, it executes the END.X
-      function (B:2:C31) on the traceroute probe.
+      function (B:2:C31) on the traceroute probe.  If B:2:C31 is a PSP
+      SID, node N4 executes the SID like any other data packet with DA =
+      B:2:C31 and removes the SRH.
 
    o  When node N3, which is a classic IPv6 node, receives the packet
-      (A:1::, B:4:OTP)(B:4:C52, B:4:OTP, B:2:C31 ; HC=1, SL=1;
-      NH=UDP)(Traceroute probe) with hop-count = 1, it processes the hop
-      count expiry.  Specifically, the node N3 responses with the ICMPv6
-      message (Type: "Time Exceeded", Code: "Time to Live exceeded in
-      Transit").
+      with hop-count = 1, it processes the hop count expiry.
+      Specifically, the node N3 responses with the ICMPv6 message (Type:
+      "Time Exceeded", Code: "Time to Live exceeded in Transit").
 
    o  When node N3, which is a classic IPv6 node, receives the packet
       with hop-count > 1, it performs the standard IPv6 processing.
-      Specifically, it forwards the traceroute probe based on DA B:4:OTP
-      in the IPv6 header.
+      Specifically, it forwards the traceroute probe based on DA B:4 in
+      the IPv6 header.
 
-   o  When node N4 receives the packet (A:1::, B:4:OTP)(B:4:C52,
-      B:4:OTP, B:2:C31 ; SL=1; HC=1, NH=UDP)(Traceroute probe), it
-      processes the END.OTP SID, as described in the pseudocode in
-      Section 3.  Before hop-limit processing, the packet gets
-      timestamped and punted to the OAM process for processing.  The OAM
-      process checks if the next SID in SRH (the target SID B:4:C52) is
-      locally programmed.
+   o  When node N4 receives the packet with DA set to the local SID B:4,
+      it processes the END SID, as described in the pseudocode in [I-
+      D.ietf-spring-srv6-network-programming].
 
-   o  If the next SID is not locally programmed, the OAM process returns
+   o  If the B:4 SID is not locally programmed, the OAM process returns
       an ICMPv6 error message type 4 (parameter problem) code 0
       (erroneous header field encountered) with pointer set to the
-      target SID B:4:C52 and the packet is discarded.
+      target SID B:4 and the packet is discarded.
 
-   o  If the next SID is locally programmed, the node processes the
-      upper layer header.  As part of the upper layer header processing
-      node N4 responses with the ICMPv6 message (Type: Destination
-      unreachable, Code: Port Unreachable).
+   o  If the target SID (B:4) is locally programmed, the node processes
+      the upper layer header.  As part of the upper layer header
+
+
+
+
+Ali, et al.            Expires September 10, 2020              [Page 11]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
+      processing node N4 responses with the ICMPv6 message (Type:
+      Destination unreachable, Code: Port Unreachable).
 
    Figure 4 displays a sample traceroute output for this example.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 14]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
 
         > traceroute srv6 B:4:C52 via segment-list B:2:C31
 
         Tracing the route to SID function B:4:C52
          1  2001:DB8:1:2:21 0.512 msec 0.425 msec 0.374 msec
-            SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=2)
+            SRH: (B:4, B:2:C31; SL=1)
          2  2001:DB8:2:3:31 0.721 msec 0.810 msec 0.795 msec
-            SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=1)
+            SRH: (B:4, B:2:C31; SL=0)
          3  2001:DB8:3:4::41 0.921 msec 0.816 msec 0.759 msec
-            SRH: (B:4:C52, B:4:OTP, B:2:C31; SL=1)
+            SRH: (B:4, B:2:C31; SL=0)
 
            Figure 4 A sample output for hop-by-hop traceroute to a SID
 
@@ -828,20 +665,21 @@ Internet-Draft                  SRv6 OAM                   February 2020
    N2 performs the standard SRH processing and forward it over link3
    with the DA of IPv6 packet set to B:4:C52.  N4 also performs the
    normal SRH processing and forward it over link10 with the DA of IPv6
+
+
+
+
+Ali, et al.            Expires September 10, 2020              [Page 12]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
    packet set to B:100:1::. This makes the probe loops back to the
    centralized monitoring system.
 
    In the reference topology in Figure 1, N100 uses an IGP protocol like
    OSPF or ISIS to get the topology view within the IGP domain.  N100
    can also use BGP-LS to get the complete view of an inter-domain
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 15]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
    topology.  In other words, the controller leverages the visibility of
    the topology to monitor the paths between the various endpoints
    without control plane intervention required at the monitored nodes.
@@ -864,50 +702,7 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
 9.  IANA Considerations
 
-9.1.  ICMPv6 type Numbers Registry
-
-   This document defines one ICMPv6 type Number in the "ICMPv6 'type'
-   Numbers" registry of [RFC4443].  Specifically, the document requests
-   to add the following ICMPv6 type Number to the "ICMPv6 Type Numbers"
-   registry:
-
-      TBA (suggested value: 162) SRv6 OAM Message.
-
-   The document also requests the creation of a new IANA registry to the
-   "ICMPv6 'Code' Fields" against the "ICMPv6 Type Numbers TBA - SRv6
-   OAM Message" with the following codes:
-
-       Code  Name                                     Reference
-       --------------------------------------------------------
-        0     No Error                                This document
-        1     SID is not locally implemented          This document
-
-
-9.2.  SRv6 OAM Endpoint Types
-
-   This I-D requests to IANA to allocate, within the "SRv6 Endpoint
-   Behaviors Registry" sub-registry belonging to the top-level "Segment-
-   routing with IPv6 data plane (SRv6) Parameters" registry [I-D.ietf-
-   spring- srv6-network-programming], the following allocations:
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 16]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
-
-           +------------------+-------------------+-----------+
-           | Value (Suggested | Endpoint Behavior | Reference |
-           | Value)           |                   |           |
-           +------------------+-------------------+-----------+
-           | TBA (40)         |        End.OP     | [This.ID] |
-           | TBA (41)         |        End.OTP    | [This.ID] |
-           +------------------+-------------------+-----------+
-
-
-9.3.  Segment Routing Header Flags
+9.1.  Segment Routing Header Flags
 
    This I-D requests to IANA to allocate bit position 2, within the
    "Segment Routing Header Flags" registry defined in [I-D.draft-ietf-
@@ -924,6 +719,15 @@ Internet-Draft                  SRv6 OAM                   February 2020
       Robert Raszuk
       Bloomberg LP
       Email: robert@raszuk.net
+
+
+
+
+
+
+Ali, et al.            Expires September 10, 2020              [Page 13]
+
+Internet-Draft                  SRv6 OAM                      March 2020
 
 
       John Leddy
@@ -944,14 +748,6 @@ Internet-Draft                  SRv6 OAM                   February 2020
       Nagendra Kumar
       Cisco Systems, Inc.
       Email: naikumar@cisco.com
-
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 17]
-
-Internet-Draft                  SRv6 OAM                   February 2020
 
 
       Carlos Pignataro
@@ -981,6 +777,15 @@ Internet-Draft                  SRv6 OAM                   February 2020
       Email: chengli13@huawei.com
 
 
+
+
+
+
+Ali, et al.            Expires September 10, 2020              [Page 14]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
       Faisal Iqbal
       Individual
       Email: faisal.ietf@gmail.com
@@ -999,16 +804,8 @@ Internet-Draft                  SRv6 OAM                   February 2020
    [I-D.ietf-spring-srv6-network-programming]
               Filsfils, C., Camarillo, P., Leddy, J., Voyer, D.,
               Matsushima, S., and Z. Li, "SRv6 Network Programming",
-              draft-ietf-spring-srv6-network-programming-09 (work in
-              progress), February 2020.
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 18]
-
-Internet-Draft                  SRv6 OAM                   February 2020
-
+              draft-ietf-spring-srv6-network-programming-12 (work in
+              progress), March 2020.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1038,6 +835,13 @@ Internet-Draft                  SRv6 OAM                   February 2020
               DOI 10.17487/RFC4884, April 2007,
               <https://www.rfc-editor.org/info/rfc4884>.
 
+
+
+Ali, et al.            Expires September 10, 2020              [Page 15]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
    [RFC5837]  Atlas, A., Ed., Bonica, R., Ed., Pignataro, C., Ed., Shen,
               N., and JR. Rivers, "Extending ICMP for Interface and
               Next-Hop Identification", RFC 5837, DOI 10.17487/RFC5837,
@@ -1054,16 +858,6 @@ Authors' Addresses
    Cisco Systems
 
    Email: zali@cisco.com
-
-
-
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 19]
-
-Internet-Draft                  SRv6 OAM                   February 2020
 
 
    Clarence Filsfils
@@ -1099,22 +893,4 @@ Internet-Draft                  SRv6 OAM                   February 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Ali, et al.             Expires September 1, 2020              [Page 20]
+Ali, et al.            Expires September 10, 2020              [Page 16]
