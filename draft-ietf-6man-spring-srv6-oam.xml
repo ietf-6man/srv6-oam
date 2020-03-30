@@ -182,17 +182,17 @@
      illustration. </t>
      
       <figure> <artwork><![CDATA[
-           +--------------------------| N100 |------------------------+
-           |                                                          |
-              ====== link1====== link3------ link5====== link9------
-              ||N1||======||N2||======| N3 |======||N4||======| N5 |
-              ||  ||------||  ||------|    |------||  ||------|    |
-              ====== link2====== link4------ link6======link10------
-                             |                      |
-                             |       ------         |
-                             +-------| N6 |---------+
-                               link7 |    | link8
-                                     ------
+   +--------------------------| N100 |---------------------------------+
+   |                                                                   |
+   |  ====== link1====== link3------ link5====== link9------   ======  |
+      ||N1||------||N2||------| N3 |------||N4||------| N5 |---||N7||
+      ||  ||------||  ||------|    |------||  ||------|    |---||  ||
+      ====== link2====== link4------ link6======link10------   ======
+         |            |                      |                   |
+      ---+--          |       ------         |                 --+---
+      |CE 1|          +-------| N6 |---------+                 |CE 2|
+      ------            link7 |    | link8                     ------        
+                              ------                          
 	  
                            Figure 1 Reference Topology
 	  ]]>
@@ -286,8 +286,9 @@
 
       <t>This section defines OAM enhancement for the SRv6 networks. 
       Specifically, it defines the O-flag for
-     implementing a controller based extended OAM mechanism and an OAM SID 
-     to more closely examine the contents of packet at a segment endpoint.  
+     implementing a controller based passive OAM mechanism and an OAM SID 
+     to more closely examine the contents of packet at a segment endpoint
+     for active OAM. 
       </t>
 
 	<section title="O-flag in Segment Routing Header">
@@ -331,12 +332,14 @@
       etc.) payload. However, the OAM process MAY export the time-stamped 
       copy of the packet to a controller using e.g., IPFIX [RFC7011]. 
       If  data from the last node in the segment-list (Egress node) is
-   desired, the ingress uses an Ultimate Segment Pop (USP) SID
-   advertised by the Egress node. 
+      desired, the ingress uses an Ultimate Segment Pop (USP) SID
+      advertised by the Egress node. 
       To avoid hitting any performance impact, the processing node SHOULD 
       rate-limit the number of packets punted to the OAM process. 
       Specification of the OAM process or the external controller operations 
-      are beyond the scope of this document.
+      are beyond the scope of this document. 
+      Section 6 illustrates use of the SRH.Flags.O-flag for implementing 
+      a controller-based passive OAM mechanism. 
      </t>  
      
       <t>Implementation of the O-flag is OPTIONAL. If a node does not support the
@@ -379,14 +382,10 @@ is modified as follows for the O-flag processing.
       
       <t>The presence of an OAM SID in the Destination address of the IPv6 header 
       instructs the segment endpoint implementing the OAM SID that the content 
-      of the packet is of interest to the node and to process the upper-layer 
-      payload, accordingly. The OAM SIDs terminate the forwarding of the probe 
-      packets for the upper layer processing. </t>  
-       
-      <t> As OAM SIDs terminate the forwarding of the probe 
-      packets for the upper layer processing, they are not designed for  
-      implementing In-situ OAM mechanisms defined in [I.D-draft-ietf-ippm-ioam-data]. 
-      </t>
+      of the packet is of interest. </t> 
+      
+    <t>The document defines OAM Endpoint with Punt action. 
+    Additional OAM SIDs may be defined in future documents.  </t> 
      	    
     </section> <!--end: OAM Segments  -->
 
@@ -406,6 +405,14 @@ is modified as follows for the O-flag processing.
 	Once the packet leaves the IPv6 layer the processing is considered host 
 	processing and the upper layer protocols MUST be processed as such.
 	</t>  
+	    
+	<t> As END.OP SID terminates the forwarding of the probe 
+      packets for the upper layer processing, it is used for the active 
+      OAM mechanisms. 
+      For example, the END.OP SID SID is not designed for  
+      implementing In-situ OAM mechanisms defined in [I.D-draft-ietf-ippm-ioam-data]. 
+      </t>
+	    
 	    
     </section> <!--end: END.OP -->
 
@@ -744,7 +751,123 @@ is modified as follows for the O-flag processing.
          
     </section> <!--end: Traceroute to a SID Function-->    
 
-    </section> <!--end: Traceroute -->    	
+    </section> <!--end: Traceroute -->    
+    
+	<section title="A Controller-Based Passive OAM Using O-flag">
+
+	<t> This section illustrates a controller-based passive OAM mechanism 
+	using the SRH.Flags.O-flag. 
+	</t>
+	
+	<t> The mechanism is different than the passive In-situ OAM defined in
+   [I.D-draft-ietf-ippm-ioam-data].  This is because In-situ OAM records 
+   operational and telemetry information in the packet as the packet traverses 
+   a path between two points in the network [I.D-draft-ietf-
+   ippm-ioam-data].  The controller-based OAM mechanism using O-flag
+   described in this section does not require the recording of OAM data in the packet.  
+   Instead, a copy of the packet with the SRH.O-flag set is sent to a local OAM process.  
+   The OAM process adds the required metadata to the packet and sends the packet to 
+   a controller for further processing.  Specification of how the OAM process 
+   computes the metadata and how the controller correlates and processes the 
+   copy of the packets from different segment endpoints is beyond the scope 
+   of this document. 
+	</t>
+     
+	<t>  Consider the example where the user wants to monitor sampled IPv4 
+    VPN 100 traffic going from CE1 to CE2 via a low latency SR policy P installed 
+    at Node N1. 
+    To exercise a low latency path, the SR Policy P forces the packet via segments 
+    B:2:C31 and B:4:C52. 
+    The VPN SID at N7 associated with VPN100 is B:7:DT100. 
+    B:7:DT100 is a USP SID. 
+    N1, N4, and N7 are capable of processing SRH.Flags.O-flag but 
+    N2 is not capable of processing SRH.Flags.O-flag. 
+    N100 is the centralized controller capable of processing and correlating 
+    the copy of the packets sent from nodes N1, N4, and N7.     
+    N100 is aware of SRH.Flags.O-flag processing capabilities.  
+    Controller N100 with the help from nodes N1, N4, N7 and implements a passive 
+    OAM mechanism using the SRH.Flags.O-flag as follows: 
+     
+     <list style="symbols">
+          <t> A packet P1:(IPv4 header)(payload) is sent from CE1 to Node N1. </t>
+          <t> Node N1 steers the packet P1 through the Policy P. 
+          Based on a local configuration, Node N1 also implements logic to sample 
+          traffic steered through policy P for passive OAM purposes. 
+          Specification for the sampling logic is beyond the scope of this document. 
+          Consider the case where packet P1 is classified as a packet to be monitored 
+          via the passive OAM. 
+          Node N1 sets SRH.Flags.O-flag during encapsulation required by policy P. 
+          As part of setting the SRH.Flags.O-flag, node N1 also send a timestamped copy 
+          of the packet P1:  (A:1::, B:2:C31)(B:7:DT100, B:4:C52, B:2:C31; SL=2; O-flag=1;
+          NH=IPv4)(IPv4 header)(payload) to a local 
+          OAM process. The local OAM process sends a full or partial copy of 
+          the packet P1 to the controller N100. 
+          The OAM process includes the 
+          recorded timestamp, additional 
+          OAM information like incoming and outgoing interface, etc. along 
+          with any applicable metadata.
+          Node N1 forwards the original packet towards the next 
+          segment B:2:C31. </t>
+          <t> When node N2 receives the packet with SRH.Flags.O-flag set, it ignores 
+          the SRH.Flags.O-flag. This is because node N2 is not capable of processing 
+          the O-flag. Node N2 
+          performs the standard SRH processing. Specifically, it executes
+          the END.X function (B:2:C31) and forwards the packet P1 
+          (A:1::, B:4:C52)(B:7:DT100, B:4:C52, B:2:C31; SL=1; O-flag=1;
+          NH=IPv4)(IPv4 header)(payload) over link 3 towards Node N3.
+          </t>
+          <t>When node N3, which is a classic IPv6 node, receives the packet P1
+          , it performs the standard IPv6 processing.
+          Specifically, it forwards the packet P1 based on DA
+          B:4:C52 in the IPv6 header. 
+          </t>
+          <t>When node N4 receives the packet P1 
+          (A:1::, B:4:C52)(B:7:DT100, B:4:C52, B:2:C31; SL=1; O-flag=1;
+          NH=IPv4)(IPv4 header)(payload), it processes the SRH.Flags.O-flag. 
+          As part of processing the O-flag, it sends a timestamped copy of 
+          the packet to a local OAM process. 
+          The local OAM process sends a full or partial copy of the packet 
+          P1 to the controller N100. The OAM process includes the 
+          recorded timestamp, additional 
+          OAM information like incoming and outgoing interface, etc. along 
+          with any applicable metadata. 
+          Node N4 performs the standard SRH processing on the original packet P1. 
+          Specifically, it executes
+          the END.X function (B:4:C52) and forwards the packet P1 
+          (A:1::, B:7:DT100)(B:7:DT100, B:4:C52, B:2:C31; SL=0; O-flag=1;
+          NH=IPv4)(IPv4 header)(payload) over link 10 towards Node N5.
+         </t> 
+          <t>When node N5, which is a classic IPv6 node, receives the packet P1, 
+          it performs the standard IPv6 processing.
+          Specifically, it forwards the packet based on DA
+          B:7:DT100 in the IPv6 header. 
+          </t>
+          <t>When node N7 receives the packet P1 
+          (A:1::, B:7:DT100)(B:7:DT100, B:4:C52, B:2:C31; SL=0; O-flag=1;
+          NH=IPv4)(IPv4 header)(payload), it processes the SRH.Flags.O-flag. 
+           As part of processing the O-flag, it sends a timestamped copy of 
+          the packet to a local OAM process. 
+          The local OAM process sends a full or partial copy of the packet 
+          P1 to the controller N100. The OAM process includes the 
+          recorded timestamp, additional 
+          OAM information like incoming and outgoing interface, etc. along 
+          with any applicable metadata. 
+          Node N4 performs the standard SRH processing on the original packet P1. 
+          Specifically, it executes the VPN SID (B:7:DT100) 
+          and based on lookup in table 100 forwards the packet P1 
+          (IPv4 header)(payload) towards CE 2.
+         </t> 
+
+          <t>
+          The controller N100 processes and correlates the copy of the packets 
+          sent from nodes N1, N4 and N7 to find segment-by-segment delays and 
+          provide other passive OAM information related to packet P1.  </t>
+          <t>
+          The process continues for any other sampled packets.  </t>
+    </list>  
+     </t>  
+     
+    </section> <!--end: O-flag --> 	
 
 	<section title="Monitoring of SRv6 Paths">
 
@@ -791,7 +914,7 @@ is modified as follows for the O-flag processing.
     </section> <!--end: Monitoring of SRv6 Paths -->    
             
 
-    </section> <!--end: OAM Mechanisms--> 	
+    </section> <!--end: Illustrations--> 	
 
     <section anchor="Status" title="Implementation Status">
      <t>  This section is to be removed prior to publishing as an RFC. 
@@ -808,7 +931,7 @@ is modified as follows for the O-flag processing.
      <t>  This document does not define any new protocol extensions and relies
      on existing procedures defined for ICMP. This document does not
      impose any additional security challenges to be considered beyond
-     security considerations described in [RFC4884], [RFC4443], [RFC792], 
+     security considerations described in RFC4884, RFC4443, RFC792, 
      RFCs that updates these RFCs, [I-D.ietf-6man-segment-routing-header] and
     [I-D.ietf-spring-srv6-network-programming]. 
      </t> 
