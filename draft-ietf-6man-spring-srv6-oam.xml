@@ -472,8 +472,11 @@ is modified as follows for the O-flag processing.
 
     <t> All transit nodes process the echo request message like any other
      data packet carrying SR header and hence do not require any change.
-     Similarly, the egress node (IPv6 classic or SRv6 capable) does not
-     require any change to process the ICMPv6 echo request. For example,
+     
+     Similarly, the egress node (IPv6 classic or SRv6 capable) does not require any 
+     change to process the ICMPv6 echo request. Furthermore, there is no difference in 
+     processing of the ICMPv6 echo request at an IPv6 classic node or an 
+     SRv6 capable node. For example,
      in the ping example of Figure 2:
      
       <list style="symbols">
@@ -612,9 +615,9 @@ is modified as follows for the O-flag processing.
          SRH: (A:5::, B:4:C52, B:2:C31, SL=2)
       2  2001:DB8:2:3:31:: 0.721 msec 0.810 msec 0.795 msec
          SRH: (A:5::, B:4:C52, B:2:C31, SL=1)
-      3  2001:DB8:3:4::41:: 0.921 msec 0.816 msec 0.759 msec
+      3  2001:DB8:3:4:41:: 0.921 msec 0.816 msec 0.759 msec
          SRH: (A:5::, B:4:C52, B:2:C31, SL=1)
-      4  2001:DB8:4:5::52:: 0.879 msec 0.916 msec 1.024 msec
+      4  2001:DB8:4:5:52:: 0.879 msec 0.916 msec 1.024 msec
       Figure 3 A sample traceroute output at an SRv6 capable node
 	]]>
 	</artwork> </figure>  
@@ -664,7 +667,7 @@ is modified as follows for the O-flag processing.
      contains the incoming interface address 2001:DB8:2:3:31:: at N3.
      This matches with the expected interface bound to END.X function
      B:2:C31 (link3). Similarly, the information displayed for hop5
-     contains the incoming interface address 2001:DB8:4:5::52:: at N5.
+     contains the incoming interface address 2001:DB8:4:5:52:: at N5.
      This matches with the expected interface bound to the END.X function
      B:4:C52 (link10). 
      </t>    
@@ -689,20 +692,20 @@ is modified as follows for the O-flag processing.
           the END.OP SID just before the target SID B:4:C52 in the SRH. 
           Specifically, 
           Node N1 initiates a traceroute probe packet with a
-          monotonically increasing value of hop count and SRH as follows
+          monotonically increasing value of hop-count and SRH as follows
           (A:1::, B:2:C31)(B:4:C52, B:4:OP, B:2:C31; SL=2;
           NH=UDP)(Traceroute probe). </t>
           <t>When node N2 receives the packet with hop-count = 1, it
-          processes the hop count expiry. Specifically, the node N2
+          processes the hop-limit expiry. Specifically, the node N2
           responses with the ICMPv6 message (Type: "Time Exceeded", Code:
           "Time to Live exceeded in Transit"). </t>
           <t>When Node N2 receives the packet with hop-count > 1, it
-          performs the standard SRH processing. Specifically, it executes
+          performs the standard SRv6 SID and SRH processing. Specifically, it executes
           the END.X function (B:2:C31) on the traceroute probe.</t>
           <t>When node N3, which is a classic IPv6 node, receives the packet
           (A:1::, B:4:OP)(B:4:C52, B:4:OP, B:2:C31 ; HC=1, SL=1;
           NH=UDP)(Traceroute probe) with hop-count = 1, it processes the
-          hop count expiry. Specifically, the node N3 responses with the
+          hop-limit expiry. Specifically, the node N3 responses with the
           ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live
           exceeded in Transit").</t>
           <t>When node N3, which is a classic IPv6 node, receives the packet
@@ -738,13 +741,13 @@ is modified as follows for the O-flag processing.
      <figure> <artwork><![CDATA[
      > traceroute srv6 B:4:C52 via segment-list B:2:C31
      Tracing the route to SID function B:4:C52
-      1  2001:DB8:1:2:21 0.512 msec 0.425 msec 0.374 msec
+      1  2001:DB8:1:2:21:: 0.512 msec 0.425 msec 0.374 msec
          SRH: (B:4:C52, B:4:OP, B:2:C31; SL=2)
-      2  2001:DB8:2:3:31 0.721 msec 0.810 msec 0.795 msec
+      2  2001:DB8:2:3:31:: 0.721 msec 0.810 msec 0.795 msec
          SRH: (B:4:C52, B:4:OP, B:2:C31; SL=1)
-      3  2001:DB8:3:4::41 0.921 msec 0.816 msec 0.759 msec
+      3  2001:DB8:3:4:41:: 0.921 msec 0.816 msec 0.759 msec
          SRH: (B:4:C52, B:4:OP, B:2:C31; SL=1)
-        Figure 4 A sample output for hop-by-hop traceroute to a SID
+        Figure 4 A sample output for traceroute to a SID
 	]]>
 	</artwork> </figure>            
      </t> 
@@ -811,7 +814,7 @@ is modified as follows for the O-flag processing.
           <t> When node N2 receives the packet with SRH.Flags.O-flag set, it ignores 
           the SRH.Flags.O-flag. This is because node N2 is not capable of processing 
           the O-flag. Node N2 
-          performs the standard SRH processing. Specifically, it executes
+          performs the standard SRv6 SID and SRH processing. Specifically, it executes
           the END.X function (B:2:C31) and forwards the packet P1 
           (A:1::, B:4:C52)(B:7:DT100, B:4:C52, B:2:C31; SL=1; O-flag=1;
           NH=IPv4)(IPv4 header)(payload) over link 3 towards Node N3.
@@ -831,7 +834,7 @@ is modified as follows for the O-flag processing.
           recorded timestamp, additional 
           OAM information like incoming and outgoing interface, etc. along 
           with any applicable metadata. 
-          Node N4 performs the standard SRH processing on the original packet P1. 
+          Node N4 performs the standard SRv6 SID and SRH processing on the original packet P1. 
           Specifically, it executes
           the END.X function (B:4:C52) and forwards the packet P1 
           (A:1::, B:7:DT100)(B:7:DT100, B:4:C52, B:2:C31; SL=0; O-flag=1;
@@ -852,7 +855,7 @@ is modified as follows for the O-flag processing.
           recorded timestamp, additional 
           OAM information like incoming and outgoing interface, etc. along 
           with any applicable metadata. 
-          Node N4 performs the standard SRH processing on the original packet P1. 
+          Node N4 performs the standard SRv6 SID and SRH processing on the original packet P1. 
           Specifically, it executes the VPN SID (B:7:DT100) 
           and based on lookup in table 100 forwards the packet P1 
           (IPv4 header)(payload) towards CE 2.
@@ -896,7 +899,7 @@ is modified as follows for the O-flag processing.
      segment list &lt;B:2:C31, B:4:C52&gt;, N100 generates a probe packet with
      SRH set to (B:100:1::, B:4:C52, B:2:C31, SL=2). The controller routes
      the probe packet towards the first segment, which is B:2:C31. N2
-     performs the standard SRH processing and forward it over link3 with
+     performs the standard SRv6 SID and SRH processing and forward it over link3 with
      the DA of IPv6 packet set to B:4:C52. N4 also performs the normal
      SRH processing and forward it over link10 with the DA of IPv6 packet
      set to B:100:1::. This makes the probe loops back to the centralized

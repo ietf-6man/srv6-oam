@@ -78,24 +78,24 @@ Table of Contents
    6.  Illustrations . . . . . . . . . . . . . . . . . . . . . . . .   7
      6.1.  Ping in SRv6 Networks . . . . . . . . . . . . . . . . . .   7
        6.1.1.  Classic Ping  . . . . . . . . . . . . . . . . . . . .   7
-       6.1.2.  Pinging a SID . . . . . . . . . . . . . . . . . . . .   8
+       6.1.2.  Pinging a SID . . . . . . . . . . . . . . . . . . . .   9
      6.2.  Traceroute  . . . . . . . . . . . . . . . . . . . . . . .   9
        6.2.1.  Classic Traceroute  . . . . . . . . . . . . . . . . .  10
        6.2.2.  Traceroute to a SID . . . . . . . . . . . . . . . . .  11
      6.3.  A Controller-Based Passive OAM Using O-flag . . . . . . .  13
      6.4.  Monitoring of SRv6 Paths  . . . . . . . . . . . . . . . .  15
-   7.  Implementation Status . . . . . . . . . . . . . . . . . . . .  15
+   7.  Implementation Status . . . . . . . . . . . . . . . . . . . .  16
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  16
    9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  16
      9.1.  ICMPv6 type Numbers Registry  . . . . . . . . . . . . . .  16
-     9.2.  SRv6 OAM Endpoint Types . . . . . . . . . . . . . . . . .  16
+     9.2.  SRv6 OAM Endpoint Types . . . . . . . . . . . . . . . . .  17
      9.3.  Segment Routing Header Flags  . . . . . . . . . . . . . .  17
    10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  17
    11. Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  17
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  18
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  18
      12.2.  Informative References . . . . . . . . . . . . . . . . .  19
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  19
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  20
 
 1.  Introduction
 
@@ -406,8 +406,10 @@ Internet-Draft                  SRv6 OAM                      March 2020
    All transit nodes process the echo request message like any other
    data packet carrying SR header and hence do not require any change.
    Similarly, the egress node (IPv6 classic or SRv6 capable) does not
-   require any change to process the ICMPv6 echo request.  For example,
-   in the ping example of Figure 2:
+   require any change to process the ICMPv6 echo request.  Furthermore,
+   there is no difference in processing of the ICMPv6 echo request at an
+   IPv6 classic node or an SRv6 capable node.  For example, in the ping
+   example of Figure 2:
 
    o  Node N1 initiates an ICMPv6 ping packet with SRH as follows
       (A:1::, B:2:C31)(A:5::, B:4:C52, B:2:C31, SL=2, NH =
@@ -437,9 +439,7 @@ Internet-Draft                  SRv6 OAM                      March 2020
       processing.  In either case, Node N5 performs the standard IPv6/
       ICMPv6 processing on the echo request.
 
-6.1.2.  Pinging a SID
 
-   The following illustration uses END.OP SID for pinging a SID.
 
 
 
@@ -449,6 +449,10 @@ Ali, et al.              Expires October 1, 2020                [Page 8]
 
 Internet-Draft                  SRv6 OAM                      March 2020
 
+
+6.1.2.  Pinging a SID
+
+   The following illustration uses END.OP SID for pinging a SID.
 
    Consider the example where the user wants to ping a remote SID
    function B:4:C52, via B:2:C31, from node N1.  The ICMPv6 echo request
@@ -493,11 +497,7 @@ Internet-Draft                  SRv6 OAM                      March 2020
    operation at the classic IPv6 nodes in an SRv6 network.  That
    includes the classic IPv6 node with ingress, egress or transit roles.
    Furthermore, no protocol changes are required to the standard
-   traceroute operations.  In other words, existing traceroute
-   mechanisms work seamlessly in the SRv6 networks.
 
-   The following subsections outline some use cases of the traceroute in
-   the SRv6 networks.
 
 
 
@@ -505,6 +505,12 @@ Ali, et al.              Expires October 1, 2020                [Page 9]
 
 Internet-Draft                  SRv6 OAM                      March 2020
 
+
+   traceroute operations.  In other words, existing traceroute
+   mechanisms work seamlessly in the SRv6 networks.
+
+   The following subsections outline some use cases of the traceroute in
+   the SRv6 networks.
 
 6.2.1.  Classic Traceroute
 
@@ -530,9 +536,9 @@ Internet-Draft                  SRv6 OAM                      March 2020
             SRH: (A:5::, B:4:C52, B:2:C31, SL=2)
          2  2001:DB8:2:3:31:: 0.721 msec 0.810 msec 0.795 msec
             SRH: (A:5::, B:4:C52, B:2:C31, SL=1)
-         3  2001:DB8:3:4::41:: 0.921 msec 0.816 msec 0.759 msec
+         3  2001:DB8:3:4:41:: 0.921 msec 0.816 msec 0.759 msec
             SRH: (A:5::, B:4:C52, B:2:C31, SL=1)
-         4  2001:DB8:4:5::52:: 0.879 msec 0.916 msec 1.024 msec
+         4  2001:DB8:4:5:52:: 0.879 msec 0.916 msec 1.024 msec
          Figure 3 A sample traceroute output at an SRv6 capable node
 
 
@@ -548,12 +554,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
    node.  This is because the "Time Exceeded Message" ICMPv6 message can
    contain as much of the invoking packet as possible without the ICMPv6
    packet exceeding the minimum IPv6 MTU [RFC4443].  The SR header is
-   also included in these ICMPv6 messages initiated by the classic IPv6
-   transit nodes that are not running SRv6 software.  Specifically, a
-   node generating ICMPv6 message containing a copy of the invoking
-   packet does not need to understand the extension header(s) in the
-   invoking packet.
-
 
 
 
@@ -561,6 +561,12 @@ Ali, et al.              Expires October 1, 2020               [Page 10]
 
 Internet-Draft                  SRv6 OAM                      March 2020
 
+
+   also included in these ICMPv6 messages initiated by the classic IPv6
+   transit nodes that are not running SRv6 software.  Specifically, a
+   node generating ICMPv6 message containing a copy of the invoking
+   packet does not need to understand the extension header(s) in the
+   invoking packet.
 
    The segment list information returned for hop1 is returned by N2,
    which is an SRv6 capable node.  Just like for hop2, the ingress node
@@ -585,7 +591,7 @@ Internet-Draft                  SRv6 OAM                      March 2020
    contains the incoming interface address 2001:DB8:2:3:31:: at N3.
    This matches with the expected interface bound to END.X function
    B:2:C31 (link3).  Similarly, the information displayed for hop5
-   contains the incoming interface address 2001:DB8:4:5::52:: at N5.
+   contains the incoming interface address 2001:DB8:4:5:52:: at N5.
    This matches with the expected interface bound to the END.X function
    B:4:C52 (link10).
 
@@ -602,14 +608,8 @@ Internet-Draft                  SRv6 OAM                      March 2020
    o  To force a punt of the traceroute probe at the node N4, node N1
       inserts the END.OP SID just before the target SID B:4:C52 in the
       SRH.  Specifically, Node N1 initiates a traceroute probe packet
-      with a monotonically increasing value of hop count and SRH as
-      follows (A:1::, B:2:C31)(B:4:C52, B:4:OP, B:2:C31; SL=2;
-      NH=UDP)(Traceroute probe).
+      with a monotonically increasing value of hop-count and SRH as
 
-   o  When node N2 receives the packet with hop-count = 1, it processes
-      the hop count expiry.  Specifically, the node N2 responses with
-      the ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live
-      exceeded in Transit").
 
 
 
@@ -618,16 +618,24 @@ Ali, et al.              Expires October 1, 2020               [Page 11]
 Internet-Draft                  SRv6 OAM                      March 2020
 
 
+      follows (A:1::, B:2:C31)(B:4:C52, B:4:OP, B:2:C31; SL=2;
+      NH=UDP)(Traceroute probe).
+
+   o  When node N2 receives the packet with hop-count = 1, it processes
+      the hop-limit expiry.  Specifically, the node N2 responses with
+      the ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live
+      exceeded in Transit").
+
    o  When Node N2 receives the packet with hop-count > 1, it performs
-      the standard SRH processing.  Specifically, it executes the END.X
-      function (B:2:C31) on the traceroute probe.
+      the standard SRv6 SID and SRH processing.  Specifically, it
+      executes the END.X function (B:2:C31) on the traceroute probe.
 
    o  When node N3, which is a classic IPv6 node, receives the packet
       (A:1::, B:4:OP)(B:4:C52, B:4:OP, B:2:C31 ; HC=1, SL=1;
-      NH=UDP)(Traceroute probe) with hop-count = 1, it processes the hop
-      count expiry.  Specifically, the node N3 responses with the ICMPv6
-      message (Type: "Time Exceeded", Code: "Time to Live exceeded in
-      Transit").
+      NH=UDP)(Traceroute probe) with hop-count = 1, it processes the
+      hop-limit expiry.  Specifically, the node N3 responses with the
+      ICMPv6 message (Type: "Time Exceeded", Code: "Time to Live
+      exceeded in Transit").
 
    o  When node N3, which is a classic IPv6 node, receives the packet
       with hop-count > 1, it performs the standard IPv6 processing.
@@ -653,15 +661,7 @@ Internet-Draft                  SRv6 OAM                      March 2020
 
    Figure 4 displays a sample traceroute output for this example.
 
-        > traceroute srv6 B:4:C52 via segment-list B:2:C31
-        Tracing the route to SID function B:4:C52
-         1  2001:DB8:1:2:21 0.512 msec 0.425 msec 0.374 msec
-            SRH: (B:4:C52, B:4:OP, B:2:C31; SL=2)
-         2  2001:DB8:2:3:31 0.721 msec 0.810 msec 0.795 msec
-            SRH: (B:4:C52, B:4:OP, B:2:C31; SL=1)
-         3  2001:DB8:3:4::41 0.921 msec 0.816 msec 0.759 msec
-            SRH: (B:4:C52, B:4:OP, B:2:C31; SL=1)
-           Figure 4 A sample output for hop-by-hop traceroute to a SID
+
 
 
 
@@ -672,6 +672,17 @@ Internet-Draft                  SRv6 OAM                      March 2020
 Ali, et al.              Expires October 1, 2020               [Page 12]
 
 Internet-Draft                  SRv6 OAM                      March 2020
+
+
+        > traceroute srv6 B:4:C52 via segment-list B:2:C31
+        Tracing the route to SID function B:4:C52
+         1  2001:DB8:1:2:21:: 0.512 msec 0.425 msec 0.374 msec
+            SRH: (B:4:C52, B:4:OP, B:2:C31; SL=2)
+         2  2001:DB8:2:3:31:: 0.721 msec 0.810 msec 0.795 msec
+            SRH: (B:4:C52, B:4:OP, B:2:C31; SL=1)
+         3  2001:DB8:3:4:41:: 0.921 msec 0.816 msec 0.759 msec
+            SRH: (B:4:C52, B:4:OP, B:2:C31; SL=1)
+           Figure 4 A sample output for traceroute to a SID
 
 
 6.3.  A Controller-Based Passive OAM Using O-flag
@@ -711,6 +722,14 @@ Internet-Draft                  SRv6 OAM                      March 2020
    o  Node N1 steers the packet P1 through the Policy P.  Based on a
       local configuration, Node N1 also implements logic to sample
       traffic steered through policy P for passive OAM purposes.
+
+
+
+Ali, et al.              Expires October 1, 2020               [Page 13]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
       Specification for the sampling logic is beyond the scope of this
       document.  Consider the case where packet P1 is classified as a
       packet to be monitored via the passive OAM.  Node N1 sets
@@ -722,24 +741,16 @@ Internet-Draft                  SRv6 OAM                      March 2020
       partial copy of the packet P1 to the controller N100.  The OAM
       process includes the recorded timestamp, additional OAM
       information like incoming and outgoing interface, etc. along with
-
-
-
-Ali, et al.              Expires October 1, 2020               [Page 13]
-
-Internet-Draft                  SRv6 OAM                      March 2020
-
-
       any applicable metadata.  Node N1 forwards the original packet
       towards the next segment B:2:C31.
 
    o  When node N2 receives the packet with SRH.Flags.O-flag set, it
       ignores the SRH.Flags.O-flag.  This is because node N2 is not
       capable of processing the O-flag.  Node N2 performs the standard
-      SRH processing.  Specifically, it executes the END.X function
-      (B:2:C31) and forwards the packet P1 (A:1::, B:4:C52)(B:7:DT100,
-      B:4:C52, B:2:C31; SL=1; O-flag=1; NH=IPv4)(IPv4 header)(payload)
-      over link 3 towards Node N3.
+      SRv6 SID and SRH processing.  Specifically, it executes the END.X
+      function (B:2:C31) and forwards the packet P1 (A:1::,
+      B:4:C52)(B:7:DT100, B:4:C52, B:2:C31; SL=1; O-flag=1;
+      NH=IPv4)(IPv4 header)(payload) over link 3 towards Node N3.
 
    o  When node N3, which is a classic IPv6 node, receives the packet P1
       , it performs the standard IPv6 processing.  Specifically, it
@@ -753,11 +764,11 @@ Internet-Draft                  SRv6 OAM                      March 2020
       the packet P1 to the controller N100.  The OAM process includes
       the recorded timestamp, additional OAM information like incoming
       and outgoing interface, etc. along with any applicable metadata.
-      Node N4 performs the standard SRH processing on the original
-      packet P1.  Specifically, it executes the END.X function (B:4:C52)
-      and forwards the packet P1 (A:1::, B:7:DT100)(B:7:DT100, B:4:C52,
-      B:2:C31; SL=0; O-flag=1; NH=IPv4)(IPv4 header)(payload) over link
-      10 towards Node N5.
+      Node N4 performs the standard SRv6 SID and SRH processing on the
+      original packet P1.  Specifically, it executes the END.X function
+      (B:4:C52) and forwards the packet P1 (A:1::, B:7:DT100)(B:7:DT100,
+      B:4:C52, B:2:C31; SL=0; O-flag=1; NH=IPv4)(IPv4 header)(payload)
+      over link 10 towards Node N5.
 
    o  When node N5, which is a classic IPv6 node, receives the packet
       P1, it performs the standard IPv6 processing.  Specifically, it
@@ -767,17 +778,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
       B:4:C52, B:2:C31; SL=0; O-flag=1; NH=IPv4)(IPv4 header)(payload),
       it processes the SRH.Flags.O-flag.  As part of processing the
       O-flag, it sends a timestamped copy of the packet to a local OAM
-      process.  The local OAM process sends a full or partial copy of
-      the packet P1 to the controller N100.  The OAM process includes
-      the recorded timestamp, additional OAM information like incoming
-      and outgoing interface, etc. along with any applicable metadata.
-      Node N4 performs the standard SRH processing on the original
-      packet P1.  Specifically, it executes the VPN SID (B:7:DT100) and
-      based on lookup in table 100 forwards the packet P1 (IPv4
-      header)(payload) towards CE 2.
-
-   o  The controller N100 processes and correlates the copy of the
-      packets sent from nodes N1, N4 and N7 to find segment-by-segment
 
 
 
@@ -786,6 +786,17 @@ Ali, et al.              Expires October 1, 2020               [Page 14]
 Internet-Draft                  SRv6 OAM                      March 2020
 
 
+      process.  The local OAM process sends a full or partial copy of
+      the packet P1 to the controller N100.  The OAM process includes
+      the recorded timestamp, additional OAM information like incoming
+      and outgoing interface, etc. along with any applicable metadata.
+      Node N4 performs the standard SRv6 SID and SRH processing on the
+      original packet P1.  Specifically, it executes the VPN SID
+      (B:7:DT100) and based on lookup in table 100 forwards the packet
+      P1 (IPv4 header)(payload) towards CE 2.
+
+   o  The controller N100 processes and correlates the copy of the
+      packets sent from nodes N1, N4 and N7 to find segment-by-segment
       delays and provide other passive OAM information related to packet
       P1.
 
@@ -816,11 +827,20 @@ Internet-Draft                  SRv6 OAM                      March 2020
    segment list <B:2:C31, B:4:C52>, N100 generates a probe packet with
    SRH set to (B:100:1::, B:4:C52, B:2:C31, SL=2).  The controller
    routes the probe packet towards the first segment, which is B:2:C31.
-   N2 performs the standard SRH processing and forward it over link3
-   with the DA of IPv6 packet set to B:4:C52.  N4 also performs the
-   normal SRH processing and forward it over link10 with the DA of IPv6
-   packet set to B:100:1::. This makes the probe loops back to the
-   centralized monitoring system.
+   N2 performs the standard SRv6 SID and SRH processing and forward it
+   over link3 with the DA of IPv6 packet set to B:4:C52.  N4 also
+   performs the normal SRH processing and forward it over link10 with
+   the DA of IPv6 packet set to B:100:1::. This makes the probe loops
+   back to the centralized monitoring system.
+
+
+
+
+
+Ali, et al.              Expires October 1, 2020               [Page 15]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
 
    In the reference topology in Figure 1, N100 uses an IGP protocol like
    OSPF or ISIS to get the topology view within the IGP domain.  N100
@@ -832,15 +852,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
 7.  Implementation Status
 
    This section is to be removed prior to publishing as an RFC.
-
-
-
-
-
-Ali, et al.              Expires October 1, 2020               [Page 15]
-
-Internet-Draft                  SRv6 OAM                      March 2020
-
 
    See [I-D.matsushima-spring-srv6-deployment-status] for updated
    deployment and interoperability reports.
@@ -875,6 +886,18 @@ Internet-Draft                  SRv6 OAM                      March 2020
         1     SID is not locally implemented          This document
 
 
+
+
+
+
+
+
+
+Ali, et al.              Expires October 1, 2020               [Page 16]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
 9.2.  SRv6 OAM Endpoint Types
 
    This I-D requests to IANA to allocate, within the "SRv6 Endpoint
@@ -888,14 +911,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
            +------------------+-------------------+-----------+
            | TBA (40)         |        End.OP     | [This.ID] |
            +------------------+-------------------+-----------+
-
-
-
-
-
-Ali, et al.              Expires October 1, 2020               [Page 16]
-
-Internet-Draft                  SRv6 OAM                      March 2020
 
 
 9.3.  Segment Routing Header Flags
@@ -932,6 +947,13 @@ Internet-Draft                  SRv6 OAM                      March 2020
       Email: bart.peirens@proximus.com
 
 
+
+
+Ali, et al.              Expires October 1, 2020               [Page 17]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
       Nagendra Kumar
       Cisco Systems, Inc.
       Email: naikumar@cisco.com
@@ -940,18 +962,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
       Carlos Pignataro
       Cisco Systems, Inc.
       Email: cpignata@cisco.com
-
-
-
-
-
-
-
-
-
-Ali, et al.              Expires October 1, 2020               [Page 17]
-
-Internet-Draft                  SRv6 OAM                      March 2020
 
 
       Rakesh Gandhi
@@ -991,6 +1001,15 @@ Internet-Draft                  SRv6 OAM                      March 2020
               (SRH)", draft-ietf-6man-segment-routing-header-26 (work in
               progress), October 2019.
 
+
+
+
+
+Ali, et al.              Expires October 1, 2020               [Page 18]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
    [I-D.ietf-spring-srv6-network-programming]
               Filsfils, C., Camarillo, P., Leddy, J., Voyer, D.,
               Matsushima, S., and Z. Li, "SRv6 Network Programming",
@@ -1001,14 +1020,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-
-Ali, et al.              Expires October 1, 2020               [Page 18]
-
-Internet-Draft                  SRv6 OAM                      March 2020
-
 
 12.2.  Informative References
 
@@ -1043,6 +1054,18 @@ Internet-Draft                  SRv6 OAM                      March 2020
               Monitoring System", RFC 8403, DOI 10.17487/RFC8403, July
               2018, <https://www.rfc-editor.org/info/rfc8403>.
 
+
+
+
+
+
+
+
+Ali, et al.              Expires October 1, 2020               [Page 19]
+
+Internet-Draft                  SRv6 OAM                      March 2020
+
+
 Authors' Addresses
 
    Zafar Ali
@@ -1055,15 +1078,6 @@ Authors' Addresses
    Cisco Systems
 
    Email: cfilsfil@cisco.com
-
-
-
-
-
-
-Ali, et al.              Expires October 1, 2020               [Page 19]
-
-Internet-Draft                  SRv6 OAM                      March 2020
 
 
    Satoru Matsushima
@@ -1082,20 +1096,6 @@ Internet-Draft                  SRv6 OAM                      March 2020
    Huawei
 
    Email: mach.chen@huawei.com
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
